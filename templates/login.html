@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Login Page</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<nav>
+    <ul>
+        <li><img src="{{ url_for('static', filename='GiftPalLogo.png') }}" alt="GiftPal"
+                style="width:50px;height:50px;"></li>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('register') }}">Register</a></li>
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+    </ul>
+</nav>
+
+<body>
+    <h1>Login Form</h1>
+    <div class="boxDiv">
+        <form method="POST" action="{{ url_for('login') }}">
+            <label>Username:</label>
+            <input type="text" name="username" required>
+            <br><br>
+            <label>Password:</label>
+            <input type="password" name="password" required>
+            <br><br>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+</body>
+
+</html>
