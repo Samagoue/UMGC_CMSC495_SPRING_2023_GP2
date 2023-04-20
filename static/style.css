@@ -71,6 +71,21 @@ input[type=submit]:hover {
     color: white;
 }
 
+button[type=submit] {
+    background-color: #003366;
+    border: none;
+    color: white;
+    padding: 16px 70px;
+    text-decoration: none;
+    margin: auto;
+    cursor: pointer;
+}
+
+button[type=submit]:hover {
+    background-color: #06066e;
+    color: white;
+}
+
 .boxDiv {
     margin: auto;
     width: 350px;
@@ -78,3 +93,47 @@ input[type=submit]:hover {
     background-color: #292626;
     padding: 10px;
 }
+
+table,
+th,
+td {
+    border: 1px solid;
+    margin: auto;
+    padding: 16px 20px;
+    border-collapse: collapse;
+    background-color: #292626;
+    color: white;
+}
+
+.boxDiv li {
+    background-color: #292626;
+    float: none;
+}
+
+.boxDiv ul {
+    background-color: #292626;
+}
+
+.passReqDiv {
+    margin: auto;
+    width: 300px;
+    border-radius: 5px;
+    background-color: #292626;
+    padding: 10px;
+    color: white;
+}
+
+.passReqDiv li {
+    background-color: #292626;
+    float: none;
+}
+
+.passReqDiv ul {
+    background-color: #292626;
+}
+
+.grid-container {
+    display:flex;
+    grid-template-columns: auto auto;
+    grid-gap: 1px;
+} 

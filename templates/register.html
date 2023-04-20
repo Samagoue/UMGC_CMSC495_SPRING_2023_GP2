@@ -18,22 +18,40 @@
 
 <body>
     <h1>Registration Form</h1>
-    <div class="boxDiv">
-        <form method="POST" action="{{ url_for('register') }}">
-            <label>Username:</label>
-            <input type="text" name="username" required>
-            <br><br>
-            <label>Password:</label>
-            <input type="password" name="password" required>
-            <br><br>
-            <label>Confirm Password:</label>
-            <input type="password" name="confirm_password" required>
-            <br><br>
-            <input type="submit" value="Register">
-        </form>
+    <div class="grid-container">
+
+        <div class="passReqDiv">
+            <h3>Password Requirements:</h2>
+                <ul>
+                    <li>At least 8 characters</li>
+                    <li>At least 1 uppercase letter</li>
+                    <li>At least 1 lowercase letter</li>
+                    <li>At least 1 number</li>
+                    <li>At least 1 special character</li>
+                </ul>
+        </div>
+
+        <div class="boxDiv">
+            <form method="POST" action="{{ url_for('register') }}">
+                <label>Username:</label>
+                <input type="text" name="username" required>
+                <br><br>
+                <label>Email:</label>
+                <input type="text" name="email" required>
+                <br><br>
+                <label>Password:</label>
+                <input type="password" name="password" required>
+                <br><br>
+                <label>Confirm Password:</label>
+                <input type="password" name="confirm_password" required>
+                <br><br>
+                <input type="submit" value="Register">
+            </form>
+        </div>
     </div>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
+    <br><br>
     <ul>
         {% for message in messages %}
         <li>{{ message }}</li>

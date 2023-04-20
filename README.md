@@ -15,6 +15,10 @@ The topic of our project is an application that tracks your loved one's special 
 
 ## Building
 
+Clone the repository:
+`git clone https://github.com/Samagoue/UMGC_CMSC495_SPRING_2023_GP2.git`
+
+Access the cloned folder and run:
 `docker build -t giftpal .`
 
 ## Using
