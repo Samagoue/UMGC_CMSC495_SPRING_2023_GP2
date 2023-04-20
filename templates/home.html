@@ -23,6 +23,16 @@
                 style="width:300px;height:300px;"></p>
     </div>
     <p>Please register or login to continue</p>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <br><br>
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
 </body>
 
 </html>
