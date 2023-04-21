@@ -17,7 +17,7 @@ h1 {
     text-align: center;
 }
 
-ul {
+.Nav ul {
     list-style-type: none;
     margin: 0;
     padding: 5px;
@@ -25,11 +25,11 @@ ul {
     background-color: #003366;
 }
 
-li {
+.Nav li {
     float: left
 }
 
-li a {
+.Nav li a {
     display: block;
     color: #ffffff;
     text-align: center;
@@ -37,7 +37,7 @@ li a {
     text-decoration: none;
 }
 
-li a:hover {
+.Nav li a:hover {
     background-color: #ffffff;
     color: #003366;
 }
@@ -133,7 +133,7 @@ td {
 }
 
 .grid-container {
-    display:flex;
+    display: flex;
     grid-template-columns: auto auto;
     grid-gap: 1px;
-} 
+}

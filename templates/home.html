@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <title>Home Page</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-</head>
-<nav>
+{% block title %}Home{% endblock %}
+{% block navigation %}
+<div class="Nav">
     <ul>
         <li><img src="{{ url_for('static', filename='GiftPalLogo.png') }}" alt="GiftPal"
                 style="width:50px;height:50px;"></li>
@@ -14,25 +10,24 @@
         <li><a href="{{ url_for('register') }}">Register</a></li>
         <li><a href="{{ url_for('login') }}">Login</a></li>
     </ul>
-</nav>
+</div>
+{% endblock %}
 
-<body>
-    <h1>Welcome to GiftPal</h1>
-    <div class="boxDiv">
-        <p align="center"><img src="{{ url_for('static', filename='GiftPalLogo.png') }}" alt="GiftPal"
-                style="width:300px;height:300px;"></p>
-    </div>
-    <p>Please register or login to continue</p>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <br><br>
-    <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
-</body>
-
-</html>
+{% block content %}
+<h1>Welcome to GiftPal</h1>
+<div class="boxDiv">
+    <p align="center"><img src="{{ url_for('static', filename='GiftPalLogo.png') }}" alt="GiftPal"
+            style="width:300px;height:300px;"></p>
+</div>
+<p>Please register or login to continue</p>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<br><br>
+<ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+{% endblock %}

@@ -1,44 +1,30 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <title>Add Wish</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-</head>
-<nav>
-    <ul>
-        <li><img src="{{ url_for('static', filename='GiftPalLogo.png') }}" alt="GiftPal"
-                style="width:50px;height:50px;">
-        </li>
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('profile') }}">Profile</a></li>
-        <li><a href="{{ url_for('events') }}">Events</a></li>
-        <li><a href="{{ url_for('wishlist') }}">Wishlist</a></li>
-        <li><a href="{{ url_for('reset_password') }}">Password Reset</a></li>
-        <li><a href="{{ url_for('logout') }}">Logout</a></li>
-    </ul>
-</nav>
+{% block title %}
+Add Wish
+{% endblock %}
 
-<body>
-    <h1>Add Wish</h1>
-    <form method="POST">
-        <div class="boxDiv">
-            <label for="wish">Wish:</label>
-            <input type="text" class="form-control" name="wish" required>
-            <button type="submit">Add Wish</button>
-        </div>
-    </form>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <br><br>
-    <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
-</body>
+{% block navigation %}
+{% include 'navigation.html' %}
+{% endblock %}
 
-</html>
+{% block content %}
+<h1>Add Wish</h1>
+<form method="POST">
+    <div class="boxDiv">
+        <label for="wish">Wish:</label>
+        <input type="text" class="form-control" name="wish" required>
+        <button type="submit">Add Wish</button>
+    </div>
+</form>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<br><br>
+<ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+{% endblock %}
