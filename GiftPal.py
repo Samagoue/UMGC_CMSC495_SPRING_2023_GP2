@@ -38,6 +38,11 @@ def init_db():
         db.execute(
             'CREATE TABLE IF NOT EXISTS wishlist (id INTEGER PRIMARY KEY AUTOINCREMENT, \
                 username TEXT, wish TEXT)')
+        db.execute(
+            "CREATE TABLE IF NOT EXISTS birthdays (id INTEGER PRIMARY KEY AUTOINCREMENT, \
+            name TEXT, email TEXT, birthdate DATE CHECK (birthdate LIKE '____-__-__'))"
+        )
+
         db.commit()
         db.close()
 
@@ -292,7 +297,8 @@ def add_event():
         return render_template('add_event.html')
     else:
         return redirect(url_for('login'))
-    
+
+
 @app.route('/wishlist', methods=['GET', 'POST'])
 def wishlist():
     """
@@ -330,7 +336,7 @@ def wishlist():
 
         return render_template('wishlist.html', wishlist=wishlist)
     else:
-        return redirect(url_for('login'))  
+        return redirect(url_for('login'))
 
 
 @app.route('/add-wish', methods=['GET', 'POST'])
@@ -354,6 +360,7 @@ def add_wish():
         return render_template('add_wish.html')
     else:
         return redirect(url_for('login'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
