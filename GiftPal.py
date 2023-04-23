@@ -41,7 +41,7 @@ def init_db():
         db = get_db()
         db.execute(
             'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, \
-                  username TEXT, email, TEXT, password TEXT)')
+                  username TEXT, email TEXT, birthdate TEXT, password TEXT)')
         db.execute(
             'CREATE TABLE IF NOT EXISTS events (id INTEGER PRIMARY KEY AUTOINCREMENT, \
                 username TEXT, name TEXT, date TEXT, type TEXT)')
@@ -77,6 +77,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
+        birthdate = request.form['birthdate']
         password = request.form['password']
         confirm_password = request.form['confirm_password']
 
@@ -123,8 +124,8 @@ def register():
             return redirect(url_for('register'))
 
         # Add the login information the the database
-        c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-                  (username, email, hash_password))
+        c.execute("INSERT INTO users (username, email, birthdate, password) VALUES (?, ?, ?, ?)",
+                  (username, email, birthdate, hash_password))
         db.commit()
 
         flash('Registration successful!')
