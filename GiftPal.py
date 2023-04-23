@@ -6,9 +6,19 @@ This application provides gift exchange suggestions and email reminders of speci
 import hashlib
 import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+from emailNotification import send_email
+
+def get_secret(secret_name):
+    with open('secrets.txt', 'r') as f:
+        for line in f:
+            name, value = line.strip().split('=')
+            if name == secret_name:
+                return value
+    return None
+
 
 app = Flask(__name__)
-app.secret_key = '2P7dnLFjVohNt6n4aaA3V'
+app.secret_key = get_secret('GIFTPAL_KEY')
 
 # Configuration for the database
 app.config['DATABASE'] = 'giftpal.db'
@@ -38,10 +48,6 @@ def init_db():
         db.execute(
             'CREATE TABLE IF NOT EXISTS wishlist (id INTEGER PRIMARY KEY AUTOINCREMENT, \
                 username TEXT, wish TEXT)')
-        db.execute(
-            "CREATE TABLE IF NOT EXISTS birthdays (id INTEGER PRIMARY KEY AUTOINCREMENT, \
-            name TEXT, email TEXT, birthdate DATE CHECK (birthdate LIKE '____-__-__'))"
-        )
 
         db.commit()
         db.close()

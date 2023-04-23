@@ -1,6 +1,5 @@
 # Import necessary modules
 from email.message import EmailMessage  # for creating email messages
-from my_passwords import password  # to import email password
 import ssl  # for creating secure socket layer connections
 import smtplib  # for sending emails through SMTP
 import datetime  # for working with dates
@@ -8,7 +7,7 @@ import sqlite3  # for working with SQLite databases
 
 
 # Define a function to send emails
-def send_email(sender, recipient, subject, message_body):
+def send_email(sender, recipient, subject, message_body, email_password):
     """Sends an email message.
 
   Args:
