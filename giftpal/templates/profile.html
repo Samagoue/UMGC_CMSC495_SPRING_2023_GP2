@@ -14,7 +14,7 @@ Profile
     <p align="center"><img src="{{ url_for('static', filename='GiftPalLogo.png') }}" alt="GiftPal"
             style="width:300px;height:300px;"></p>
 </div>
-<p>You are now logged in</p>
+<p>You are now logged in as {{ first_name }} {{ last_name }}.</p>
 <br>
 <p>Your Email is: {{ email }}</p>
 {% with messages = get_flashed_messages() %}

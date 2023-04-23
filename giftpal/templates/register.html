@@ -32,6 +32,12 @@
 
     <div class="boxDiv">
         <form method="POST" action="{{ url_for('register') }}">
+            <label>First Name:</label>
+            <input type="text" name="first_name" required>
+            <br><br>
+            <label>Last Name:</label>
+            <input type="text" name="last_name" required>
+            <br><br>
             <label>Username:</label>
             <input type="text" name="username" required>
             <br><br>
@@ -45,6 +51,10 @@
             <input type="password" name="confirm_password" required>
             <br><br>
             <input type="submit" value="Register">
+            <label>Birthday (DDMMYYYY)</label>
+            <input type="date" name="dob" required>
+            <br><br>
+            <label>Already have an account? <a href="{{ url_for('login') }}">Login</a></label>
         </form>
     </div>
 </div>
