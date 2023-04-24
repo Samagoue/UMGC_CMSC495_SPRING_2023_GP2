@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from .models import User, Event, Wishlist
 from .utils import is_valid_date
 from .database import db
+from .auth import register, login, logout, reset_password, profile
 
 bp = Blueprint('main', __name__)
 
@@ -11,6 +12,36 @@ def home():
     Render home page
     """
     return render_template('home.html')
+
+@bp.route('/register', methods=['GET', 'POST'])
+def register_route():
+    if request.method == 'POST':
+        return register()
+    return render_template('register.html')
+
+@bp.route('/login', methods=['GET', 'POST'])
+def login_route():
+    if request.method == 'POST':
+        return login()
+    return render_template('login.html')
+
+@bp.route('/logout')
+def logout_route():
+    return logout()
+
+@bp.route('/reset-password', methods=['GET', 'POST'])
+def reset_password_route():
+    if 'username' in session:
+        return reset_password()
+    else:
+        return redirect(url_for('main.login_route'))
+
+@bp.route('/profile')
+def profile_route():
+    if 'username' in session:
+        return profile()
+    else:
+        return redirect(url_for('main.login_route'))
 
 @bp.route('/events', methods=['GET', 'POST'])
 def events():
@@ -41,7 +72,7 @@ def events():
 
         return render_template('events.html', events=events)
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login_route'))
 
 @bp.route('/add-event', methods=['GET', 'POST'])
 def add_event():
@@ -67,7 +98,7 @@ def add_event():
 
         return render_template('add_event.html')
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login_route'))
 
 @bp.route('/wishlist', methods=['GET', 'POST'])
 def wishlist():
@@ -98,7 +129,7 @@ def wishlist():
 
         return render_template('wishlist.html', wishlist=wishlist)
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login_route'))
 
 @bp.route('/add-wish', methods=['GET', 'POST'])
 def add_wish():
@@ -120,6 +151,6 @@ def add_wish():
         
         return render_template('add_wish.html')
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login_route'))
 
 

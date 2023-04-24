@@ -1,5 +1,5 @@
 from flask import Flask, g
-from giftpal.database import db
+from giftpal.database import db, init_db, close_db
 from giftpal.routes import bp as main_bp
 
 def create_app():
@@ -10,10 +10,11 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ECHO'] = True
 
-    db.init_app(app)
+    with app.app_context():
+        init_db()
+    app.teardown_appcontext(close_db)
 
+    db.init_app(app)
     app.register_blueprint(main_bp)
-    # app = Flask(__name__, static_folder='static')
-    # app = Flask(__name__, template_folder='templates')
 
     return app
