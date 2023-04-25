@@ -28,7 +28,7 @@ Access the cloned folder and run:
 
 ## Using
 
-    docker run -p 5000:80 giftpal
+    docker run -p 5000:5000 giftpal
 
 Access the application at http://localhost:5000
 
