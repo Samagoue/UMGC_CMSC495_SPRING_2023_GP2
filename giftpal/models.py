@@ -41,6 +41,8 @@ class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     group_name = db.Column(db.String(100), nullable=False)
     min_dollar_amount = db.Column(db.Integer, nullable=False)
+    group_email = db.Column(db.String(50), unique=True, nullable=False)
+    group_password = db.Column(db.String(64), nullable=False)
 
     pairs = db.relationship("Pair", back_populates="group")
     users = db.relationship("UserGroup", back_populates="group")
