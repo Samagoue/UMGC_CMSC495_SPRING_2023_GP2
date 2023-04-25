@@ -1,31 +1,8 @@
 {% extends "base.html" %}
 
-<!-- {% block scripts %}
-<script>
-    function reformatDate() {
-        let dateInput = document.getElementById('dob');
-        let dateObject = new Date(dateInput.value);
-        let day = String(dateObject.getDate()).padStart(2, '0');
-        let month = String(dateObject.getMonth() + 1).padStart(2, '0');
-        let year = dateObject.getFullYear();
-        let formattedDate = day + month + year;
-        dateInput.value = formattedDate;
-    }
-</script>
-{% endblock %} -->
-
 {% block title %}Registration{% endblock %}
 {% block navigation %}
-<div class="Nav">
-    <ul>
-        <li><img src="{{ url_for('static', filename='GiftPalLogo.png') }}" alt="GiftPal"
-                style="width:50px;height:50px;">
-        </li>
-        <li><a href="{{ url_for('main.home') }}">Home</a></li>
-        <li><a href="{{ url_for('main.register_route') }}">Register</a></li>
-        <li><a href="{{ url_for('main.login_route') }}">Login</a></li>
-    </ul>
-</div>
+{% include 'navigation.html' %}
 {% endblock %}
 
 {% block content %}
@@ -73,14 +50,4 @@
         </form>
     </div>
 </div>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<br><br>
-<ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
 {% endblock %}

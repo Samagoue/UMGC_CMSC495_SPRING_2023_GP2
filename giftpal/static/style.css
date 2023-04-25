@@ -42,6 +42,18 @@ h1 {
     color: #003366;
 }
 
+.footer-items ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 5px;
+    overflow: hidden;
+    background-color: #003366;
+}
+
+.footer-items li {
+    float: left
+}
+
 form {
     display: block;
     color: #ffffff;
@@ -108,10 +120,15 @@ td {
 .boxDiv li {
     background-color: #292626;
     float: none;
+    display: block;
 }
 
 .boxDiv ul {
     background-color: #292626;
+    list-style: none;
+    text-align: center;
+    margin: 0;
+    padding: 5px;
 }
 
 .passReqDiv {

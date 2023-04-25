@@ -17,14 +17,4 @@ Add Wish
         <button type="submit">Add Wish</button>
     </div>
 </form>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<br><br>
-<ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
 {% endblock %}

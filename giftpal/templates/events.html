@@ -22,12 +22,12 @@ Events
     <tbody>
         {% for event in events %}
         <tr>
-            <td>{{ event[2] }}</td>
-            <td>{{ event[3] }}</td>
-            <td>{{ event[4] }}</td>
+            <td>{{ event.name }}</td>
+            <td>{{ event.date }}</td>
+            <td>{{ event.type }}</td>
             <td>
                 <form method="POST" action="/events">
-                    <input type="hidden" name="event_id" value="{{ event[0] }}">
+                    <input type="hidden" name="event_id" value="{{ event.id }}">
                     <button type="submit">Delete</button>
                 </form>
             </td>
@@ -39,14 +39,4 @@ Events
 <form action="{{ url_for('main.add_event') }}">
     <button type="submit">Add New Event</button>
 </form>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<br><br>
-<ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
 {% endblock %}
