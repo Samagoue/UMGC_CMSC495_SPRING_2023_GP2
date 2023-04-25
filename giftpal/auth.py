@@ -2,7 +2,6 @@ import hashlib
 from flask import render_template, request, redirect, url_for, session, flash
 from .models import db, User, Group
 
-
 # Render and provide backend for account registration page
 def register():
     first_name = request.form['first_name']
@@ -37,11 +36,6 @@ def register():
     if not first_name or not last_name:
         flash('Please enter your first and last name!')
         return redirect(url_for('main.register_route'))
-
-    # Ensure date of birth is valid
-    # if not is_valid_date(dob):
-    #     flash('Please enter your date of birth in the format DDMMYYYY!')
-    #     return redirect(url_for('main.register_route'))
 
     # Hash the password
     hash_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
