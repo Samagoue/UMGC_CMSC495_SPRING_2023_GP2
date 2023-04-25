@@ -2,7 +2,7 @@
 <h3 align="center">The Ultimate Gift Exchange and Reminder App</h3>
 
 <p align="center">
-<img alt="GiftPal" src="https://raw.githubusercontent.com/Samagoue/UMGC_CMSC495_SPRING_2023_GP2/master/static/GiftPalLogo.png" width="220"/>
+<img alt="GiftPal" src="https://raw.githubusercontent.com/Samagoue/UMGC_CMSC495_SPRING_2023_GP2/master/giftpal/static/GiftPalLogo.png" width="220"/>
 </br>
 <a href="https://github.com/Samagoue/UMGC_CMSC495_SPRING_2023_GP2">
 <img alt="MIT License" src="https://img.shields.io/github/license/Samagoue/UMGC_CMSC495_SPRING_2023_GP2.svg"/>
