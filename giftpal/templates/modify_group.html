@@ -1,15 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Modify Group{% endblock %}
 {% block navigation %}
-<div class="Nav">
-    <ul>
-        <li><img src="{{ url_for('static', filename='GiftPalLogo.png') }}" alt="GiftPal"
-                style="width:50px;height:50px;">
-        </li>
-
-    </ul>
-</div>
+{% include 'navigation.html' %}
 {% endblock %}
 
 {% block content %}
@@ -37,14 +30,4 @@
         <input type="submit" value="Submit Group Modifications">
     </form>
 </div>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<br><br>
-<ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
 {% endblock %}

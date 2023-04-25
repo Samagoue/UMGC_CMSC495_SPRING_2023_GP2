@@ -20,22 +20,20 @@ class User(db.Model):
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     name = db.Column(db.String(100), nullable=False)
     date = db.Column(db.String(8), nullable=False)
     type = db.Column(db.String(50))
 
-    wishlists = db.relationship("Wishlist", back_populates="event")
     pairs = db.relationship("Pair", back_populates="event")
     users = db.relationship("UserEvent", back_populates="event")
 
 class Wishlist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
     wish = db.Column(db.Text, nullable=False)
 
     user = db.relationship("User", back_populates="wishlists")
-    event = db.relationship("Event", back_populates="wishlists")
 
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)

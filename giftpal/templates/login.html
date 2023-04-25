@@ -2,16 +2,7 @@
 
 {% block title %}Home{% endblock %}
 {% block navigation %}
-<div class="Nav">
-    <ul>
-        <li><img src="{{ url_for('static', filename='GiftPalLogo.png') }}" alt="GiftPal"
-                style="width:50px;height:50px;">
-        </li>
-        <li><a href="{{ url_for('main.home') }}">Home</a></li>
-        <li><a href="{{ url_for('main.register_route') }}">Register</a></li>
-        <li><a href="{{ url_for('main.login_route') }}">Login</a></li>
-    </ul>
-</div>
+{% include 'navigation.html' %}
 {% endblock %}
 
 {% block content %}
@@ -27,14 +18,4 @@
         <input type="submit" value="Login">
     </form>
 </div>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<br><br>
-<ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
 {% endblock %}
