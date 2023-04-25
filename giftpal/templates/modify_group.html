@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+{% block navigation %}
+<div class="Nav">
+    <ul>
+        <li><img src="{{ url_for('static', filename='GiftPalLogo.png') }}" alt="GiftPal"
+                style="width:50px;height:50px;">
+        </li>
+
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<h1>Modify Group</h1>
+<div class="boxDiv">
+    <form method="POST" action="{{ url_for('main.modify_group') }}">
+        <label>Group Name:</label>
+        <input type="text" name="group_name" required>
+        <br><br>
+        <label>Group Password:</label>
+        <input type="password" name="group_password" required>
+        <br><br>
+        <label>Modification:</label>
+        <select name="modify_selection" id="modify_selection">
+            <option value="add_user">Add User</option>
+            <option value="delete_user">Delete User</option>
+        </select>        
+        <br><br>
+        <label>User Name:</label>
+        <input type="text" name="user_name" required>
+        <br><br>
+        <label>User Email:</label>
+        <input type="text" name="user_email" required>
+        <br><br>
+        <input type="submit" value="Submit Group Modifications">
+    </form>
+</div>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<br><br>
+<ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+{% endblock %}
