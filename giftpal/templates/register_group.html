@@ -7,7 +7,7 @@
         <li><img src="{{ url_for('static', filename='GiftPalLogo.png') }}" alt="GiftPal"
                 style="width:50px;height:50px;">
         </li>
-        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('main.home') }}">Home</a></li>
     </ul>
 </div>
 {% endblock %}
@@ -29,7 +29,7 @@
     </div>
 
     <div class="boxDiv">
-        <form method="POST" action="{{ url_for('register_group') }}">
+        <form method="POST" action="{{ url_for('main.register_group') }}">
             <label>Group Name:</label>
             <input type="text" name="group_name" required>
             <br><br>
