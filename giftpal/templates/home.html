@@ -6,9 +6,9 @@
     <ul>
         <li><img src="{{ url_for('static', filename='GiftPalLogo.png') }}" alt="GiftPal"
                 style="width:50px;height:50px;"></li>
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('register') }}">Register</a></li>
-        <li><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('main.home') }}">Home</a></li>
+        <li><a href="{{ url_for('main.register_route') }}">Register</a></li>
+        <li><a href="{{ url_for('main.login_route') }}">Login</a></li>
     </ul>
 </div>
 {% endblock %}

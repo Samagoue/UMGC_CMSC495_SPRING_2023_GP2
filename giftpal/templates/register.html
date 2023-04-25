@@ -1,5 +1,19 @@
 {% extends "base.html" %}
 
+<!-- {% block scripts %}
+<script>
+    function reformatDate() {
+        let dateInput = document.getElementById('dob');
+        let dateObject = new Date(dateInput.value);
+        let day = String(dateObject.getDate()).padStart(2, '0');
+        let month = String(dateObject.getMonth() + 1).padStart(2, '0');
+        let year = dateObject.getFullYear();
+        let formattedDate = day + month + year;
+        dateInput.value = formattedDate;
+    }
+</script>
+{% endblock %} -->
+
 {% block title %}Registration{% endblock %}
 {% block navigation %}
 <div class="Nav">
@@ -7,9 +21,9 @@
         <li><img src="{{ url_for('static', filename='GiftPalLogo.png') }}" alt="GiftPal"
                 style="width:50px;height:50px;">
         </li>
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('register') }}">Register</a></li>
-        <li><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('main.home') }}">Home</a></li>
+        <li><a href="{{ url_for('main.register_route') }}">Register</a></li>
+        <li><a href="{{ url_for('main.login_route') }}">Login</a></li>
     </ul>
 </div>
 {% endblock %}
@@ -31,7 +45,13 @@
     </div>
 
     <div class="boxDiv">
-        <form method="POST" action="{{ url_for('register') }}">
+        <form method="POST" action="{{ url_for('main.register_route') }}" onsubmit="reformatDate()">
+            <label>First Name:</label>
+            <input type="text" name="first_name" required>
+            <br><br>
+            <label>Last Name:</label>
+            <input type="text" name="last_name" required>
+            <br><br>
             <label>Username:</label>
             <input type="text" name="username" required>
             <br><br>
@@ -44,7 +64,12 @@
             <label>Confirm Password:</label>
             <input type="password" name="confirm_password" required>
             <br><br>
+            <label>Birthday (DDMMYYYY)</label>
+            <input type="date" name="dob" id="dob" required>
+            <br><br>
             <input type="submit" value="Register">
+            <br><br>
+            <label>Already have an account? <a href="{{ url_for('main.login_route') }}">Login</a></label>
         </form>
     </div>
 </div>
