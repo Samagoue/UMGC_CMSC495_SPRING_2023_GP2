@@ -14,5 +14,18 @@
         {% block content %}{% endblock %}
     </main>
 </body>
-
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<footer>
+    <br><br>
+    <div class="footer-items">
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</footer>
+{% endif %}
+{% endwith %}
 </html>

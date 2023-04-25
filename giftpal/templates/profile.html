@@ -17,14 +17,4 @@ Profile
 <p>You are now logged in as {{ first_name }} {{ last_name }}.</p>
 <br>
 <p>Your Email is: {{ email }}</p>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<br><br>
-<ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
 {% endblock %}
