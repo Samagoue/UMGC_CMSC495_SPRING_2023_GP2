@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Group Registration{% endblock %}
+{% block navigation %}
+<div class="Nav">
+    <ul>
+        <li><img src="{{ url_for('static', filename='GiftPalLogo.png') }}" alt="GiftPal"
+                style="width:50px;height:50px;">
+        </li>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<h1>Registration Form</h1>
+<div class="grid-container">
+
+    <div class="passReqDiv">
+        <h3>Group Password Requirements:</h2>
+            <ul>
+                <li>At least 8 characters</li>
+                <li>At least 1 uppercase letter</li>
+                <li>At least 1 lowercase letter</li>
+                <li>At least 1 number</li>
+                <li>At least 1 special character</li>
+            </ul>
+    </div>
+
+    <div class="boxDiv">
+        <form method="POST" action="{{ url_for('register_group') }}">
+            <label>Group Name:</label>
+            <input type="text" name="group_name" required>
+            <br><br>
+            <label>Group Email:</label>
+            <input type="text" name="group_email" required>
+            <br><br>
+            <label>Group Password:</label>
+            <input type="password" name="group_password" required>
+            <br><br>
+            <label>Confirm Group Password:</label>
+            <input type="password" name="confirm_group_password" required>
+            <br><br>
+            <input type="submit" value="Register Group">
+        </form>
+    </div>
+</div>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<br><br>
+<ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+{% endblock %}
