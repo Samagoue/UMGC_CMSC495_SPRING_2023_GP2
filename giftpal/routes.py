@@ -53,7 +53,7 @@ def events():
         if request.method == 'GET':
             # Query events table for events created by the user
             user = User.query.filter_by(username=username).first()
-            events = user.events
+            events = Event.query.filter_by(user_id=user.id).all()
 
             # Render template with events
             return render_template('events.html', events=events)
@@ -68,7 +68,7 @@ def events():
 
             # Query events table for events created by the user
             user = User.query.filter_by(username=username).first()
-            events = user.events
+            events = Event.query.filter_by(user_id=user.id).all()
 
         return render_template('events.html', events=events)
     else:
@@ -89,7 +89,7 @@ def add_event():
                 event_type = request.form['custom_event_type']
 
             user = User.query.filter_by(username=username).first()
-            event = Event(name=name, date=date, type=event_type, user=user)
+            event = Event(name=name, date=date, type=event_type, user_id=user.id)
             db.session.add(event)
             db.session.commit()
 
@@ -142,7 +142,7 @@ def add_wish():
             wish = request.form['wish']
 
             user = User.query.filter_by(username=username).first()
-            wishlist = Wishlist(wish=wish, user=user)
+            wishlist = Wishlist(wish=wish, user_id=user.id)
             db.session.add(wishlist)
             db.session.commit()
 
