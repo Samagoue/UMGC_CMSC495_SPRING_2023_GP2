@@ -14,11 +14,11 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 COPY . /app
 
 # Make port 80 available to the world outside this container
-EXPOSE 80
+EXPOSE 5000
 
 # Define environment variable
 ENV FLASK_APP=run.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
 # Run the command to start the Flask app
-CMD ["flask", "run", "--port", "80"]
+CMD ["flask", "run", "--port", "5000"]
