@@ -94,7 +94,7 @@ def add_event():
             db.session.commit()
 
             flash('Event added successfully!')
-            return redirect(url_for('events'))
+            return redirect(url_for('main.events'))
 
         return render_template('add_event.html')
     else:
@@ -147,7 +147,7 @@ def add_wish():
             db.session.commit()
 
             flash('Wish added successfully!')
-            return redirect(url_for('wishlist'))
+            return redirect(url_for('main.wishlist'))
         
         return render_template('add_wish.html')
     else:

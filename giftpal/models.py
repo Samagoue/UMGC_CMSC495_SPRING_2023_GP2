@@ -45,6 +45,7 @@ class Group(db.Model):
     pairs = db.relationship("Pair", back_populates="group")
     users = db.relationship("UserGroup", back_populates="group")
 
+
 class Pair(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     giver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -58,15 +59,13 @@ class Pair(db.Model):
     group = db.relationship("Group", back_populates="pairs")
 
 class UserEvent(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, primary_key=True)
-    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), primary_key=True)
     user = db.relationship("User", back_populates="events")
     event = db.relationship("Event", back_populates="users")
 
 class UserGroup(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, primary_key=True)
-    group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id'), primary_key=True)
     user = db.relationship("User", back_populates="groups")
     group = db.relationship("Group", back_populates="users")

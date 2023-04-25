@@ -130,3 +130,6 @@ dmypy.json
 
 # GiftPal Database
 giftpal.db
+
+# idea folder
+.idea/

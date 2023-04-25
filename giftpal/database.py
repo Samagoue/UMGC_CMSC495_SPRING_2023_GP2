@@ -26,11 +26,7 @@ def init_db():
     conn = get_db()
     
     # Get the current directory and build the absolute path to schema.sql and init.sq
-    schema_path = os.path.join(base_dir, '..', 'database', 'schema.sql')
     init_path = os.path.join(base_dir, '..', 'database', 'init.sql')
-
-    with open(schema_path, mode='r') as f:
-        conn.cursor().executescript(f.read())
     with open(init_path, mode='r') as f:
         conn.cursor().executescript(f.read())
     conn.commit()

@@ -1,7 +1,7 @@
 import hashlib
 from flask import render_template, request, redirect, url_for, session, flash
 from .models import db, User
-from .utils import is_valid_date
+
 
 # Render and provide backend for account registration page
 def register():
@@ -39,9 +39,9 @@ def register():
         return redirect(url_for('main.register_route'))
 
     # Ensure date of birth is valid
-    if not is_valid_date(dob):
-        flash('Please enter your date of birth in the format DDMMYYYY!')
-        return redirect(url_for('main.register_route'))
+    # if not is_valid_date(dob):
+    #     flash('Please enter your date of birth in the format DDMMYYYY!')
+    #     return redirect(url_for('main.register_route'))
 
     # Hash the password
     hash_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
@@ -124,4 +124,4 @@ def reset_password():
 def profile():    
     username = session['username']
     user = User.query.filter_by(username=username).first()
-    return render_template('profile.html', user=user)
+    return render_template('profile.html', username=user.username, first_name=user.first_name, last_name=user.last_name, email=user.email, dob=user.dob)

@@ -36,7 +36,7 @@ Events
     </tbody>
 </table>
 <br><br>
-<form action="{{ url_for('add_event') }}">
+<form action="{{ url_for('main.add_event') }}">
     <button type="submit">Add New Event</button>
 </form>
 {% with messages = get_flashed_messages() %}
