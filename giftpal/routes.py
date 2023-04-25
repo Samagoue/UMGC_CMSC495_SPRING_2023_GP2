@@ -166,34 +166,34 @@ def register_group():
 #my modify_group route might actually be the admin route, I'm struggling with the idea
 #that the admin of group needs to login, what if each user can just modify a group by
 #knowing the password of the group? Rather than making them specific admins? 
-@bp.route('/modify_group', methods=['GET', 'POST'])
-def modify_group():
-    """
-    Render and provide backend for modify group page
-    """
-    if request.method == 'POST':
-        group_name = request.form['group_name']
-        group_password = request.form['group_password']
+# @bp.route('/modify_group', methods=['GET', 'POST'])
+# def modify_group():
+#     """
+#     Render and provide backend for modify group page
+#     """
+#     if request.method == 'POST':
+#         group_name = request.form['group_name']
+#         group_password = request.form['group_password']
 
-        # Hash the password
-        hash_group_password = hashlib.sha256(group_password.encode('utf-8')).hexdigest()
+#         # Hash the password
+#         hash_group_password = hashlib.sha256(group_password.encode('utf-8')).hexdigest()
 
-        # Connect to database
-        db = get_db()
-        curs = db.cursor()
+#         # Connect to database
+#         db = get_db()
+#         curs = db.cursor()
 
-        # Search for the group credentials in the database
-        curs.execute("SELECT * FROM groups WHERE name = ? AND password = ?",
-                  (group_name, hash_group_password))
-        group_name_exist = curs.fetchone()
+#         # Search for the group credentials in the database
+#         curs.execute("SELECT * FROM groups WHERE name = ? AND password = ?",
+#                   (group_name, hash_group_password))
+#         group_name_exist = curs.fetchone()
 
-        #the if statement will need to be worked on
-        if group_name_exist:
-            session['group_name'] = group_name
-            #return redirect(url_for('group_page'))
+#         #the if statement will need to be worked on
+#         if group_name_exist:
+#             session['group_name'] = group_name
+#             #return redirect(url_for('group_page'))
 
-        #the below two pieces of code will also need to be modified
-        flash('Invalid Group Name or Group Password!')
-        return redirect(url_for('modify_group'))
+#         #the below two pieces of code will also need to be modified
+#         flash('Invalid Group Name or Group Password!')
+#         return redirect(url_for('modify_group'))
 
-    return render_template('modify_group.html')
+#     return render_template('modify_group.html')
