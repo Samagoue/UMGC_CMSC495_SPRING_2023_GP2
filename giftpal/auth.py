@@ -1,6 +1,6 @@
 import hashlib
 from flask import render_template, request, redirect, url_for, session, flash
-from .models import db, User, Group
+from .models import db, User, Group, UserGroup
 
 
 # Render and provide backend for account registration page
@@ -136,7 +136,7 @@ def register_group():
 
         if 'username' not in session:
             flash('You need to be logged in before you can register a group!')
-            return redirect(url_for('main.login_route'))
+            return redirect(url_for('main.register_group_route'))
         # Ensure group password meets complexity requirements
         if len(group_password) < 8:
             flash('The group password must be at least 8 characters long!')
@@ -162,7 +162,6 @@ def register_group():
 
         # Check if there is a group registered with this email
         #Might want to consider that emails can have multiple groups attached to them
-        print("OR Here")
 
         group_email_exists = Group.query.filter_by(group_email=group_email).first()
 
@@ -173,7 +172,6 @@ def register_group():
             return redirect(url_for('main.register_group_route'))
 
         # Check if group name is available
-        print("Maybe Here")
 
         group_name_exists = Group.query.filter_by(group_name=group_name).first()
 
@@ -181,14 +179,32 @@ def register_group():
             flash('This group name is already taken!')
             return redirect(url_for('main.register_group_route'))
         
-        print("Just Here")
 
         # Add the group information into the database
         new_group = Group(group_name=group_name, min_dollar_amount=min_dollar_amount, group_email=group_email, group_password=hash_group_password)
+        #print new_group id to console
+
         db.session.add(new_group)
         db.session.commit()
-        print("LIES Here")
 
+        query_group = Group.query.filter_by(group_name=group_name).filter_by(group_email=group_email).first()
+        query_user = User.query.filter_by(username=session['username']).first()
+        print("start")
+        print(query_group)
+        print(query_group.id)
+        print(query_group.group_name)
+        print(query_group.group_email)
+        print(query_group.min_dollar_amount)
+        print("This is query_user.id" + query_user.id)
+        print("finish")
+
+        new_user_group = UserGroup(user_id=query_group.id, group_id=query_group.id, is_admin=True)
+
+        db.session.add(new_group)
+        db.session.commit()
+
+        # db.session.add(new_group)
+        # db.session.commit()
         flash('Group Registration successful!')
         #the action after group registration bears further thought
         return redirect(url_for('main.register_route'))
