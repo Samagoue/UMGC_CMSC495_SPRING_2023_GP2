@@ -39,14 +39,6 @@ def reset_password_route():
 @bp.route('/profile')
 def profile_route():
     if 'username' in session:
-        # print("DUMB DUMB")
-        # print(session['username'])
-        # print(session['id'])
-        # print(session['first_name'])
-        # print(session['last_name'])
-        # print(session['email'])
-        # print(session['groups'])
-
         return profile()
     else:
         return redirect(url_for('main.login_route'))
