@@ -67,5 +67,6 @@ class UserEvent(db.Model):
 class UserGroup(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'), primary_key=True)
-    user = db.relationship("User", back_populates="groups")
-    group = db.relationship("Group", back_populates="users")
+    # user = db.relationship("User", back_populates="groups")
+    # group = db.relationship("Group", back_populates="users")
+    is_admin = db.Column(db.Boolean, default=False)
