@@ -39,6 +39,14 @@ def reset_password_route():
 @bp.route('/profile')
 def profile_route():
     if 'username' in session:
+        # print("DUMB DUMB")
+        # print(session['username'])
+        # print(session['id'])
+        # print(session['first_name'])
+        # print(session['last_name'])
+        # print(session['email'])
+        # print(session['groups'])
+
         return profile()
     else:
         return redirect(url_for('main.login_route'))
@@ -154,12 +162,15 @@ def add_wish():
         return redirect(url_for('main.login_route'))
 
 @bp.route('/register_group', methods=['GET', 'POST'])
-def register_group():
+def register_group_route():
     """
     Render and provide backend for group registration page
     """
     if request.method == 'POST':
+        print("hello world")
         register_group()
+        print("NOOOOOOOOOOOO")
+
 
     return render_template('register_group.html')
 
