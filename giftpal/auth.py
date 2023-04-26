@@ -195,14 +195,23 @@ def register_group():
         print(query_group.group_name)
         print(query_group.group_email)
         print(query_group.min_dollar_amount)
-        print("This is query_user.id" + query_user.id)
         print("finish")
+        print("query_user_id")
+        print(query_user.id)
 
         new_user_group = UserGroup(user_id=query_group.id, group_id=query_group.id, is_admin=True)
 
-        db.session.add(new_group)
+        db.session.add(new_user_group)
         db.session.commit()
-
+#can use this information to pull modification for group in modify group
+        quereyed_UserGroup = UserGroup.query.filter_by(user_id=query_user.id).filter_by(group_id=query_group.id).first()
+        print("startINGstartINGstartINGstartINGstartING ")
+        print(quereyed_UserGroup)
+        print(quereyed_UserGroup.user_id)
+        print(quereyed_UserGroup.group_id)
+        print(quereyed_UserGroup.is_admin)  
+        print("finishINGINGINGINGfinishINGINGINGINGfinishINGINGINGINGfinishINGINGINGING finishINGINGINGING")
+     
         # db.session.add(new_group)
         # db.session.commit()
         flash('Group Registration successful!')
