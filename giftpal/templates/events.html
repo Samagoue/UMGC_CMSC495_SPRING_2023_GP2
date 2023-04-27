@@ -10,31 +10,37 @@ Events
 
 {% block content %}
 <h1>Events</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for event in events %}
-        <tr>
-            <td>{{ event.name }}</td>
-            <td>{{ event.date }}</td>
-            <td>{{ event.type }}</td>
-            <td>
-                <form method="POST" action="/events">
-                    <input type="hidden" name="event_id" value="{{ event.id }}">
-                    <button type="submit">Delete</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+
+{% if no_events_message %}
+    <p>{{ no_events_message }}</p>
+{% else %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+            <tr>
+                <td>{{ event.name }}</td>
+                <td>{{ event.date }}</td>
+                <td>{{ event.type }}</td>
+                <td>
+                    <form method="POST" action="/events">
+                        <input type="hidden" name="event_id" value="{{ event.id }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
 <br><br>
 <form action="{{ url_for('main.add_event') }}">
     <button type="submit">Add New Event</button>

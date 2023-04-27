@@ -12,7 +12,7 @@ Add Event
 <h1>Add Event</h1>
 <form method="POST">
     <div class="boxDiv">
-        <label for="name">Name of Loved One:</label>
+        <label for="name">Name of the Event:</label>
         <input type="text" class="form-control" name="name" required>
         <br><br>
         <label for="date">Date of Event:</label>
@@ -20,21 +20,19 @@ Add Event
         <br><br>
         <label for="event_type">Event Type:</label>
         <ul>
-            <input class="form-check-input" type="radio" name="event_type" id="event_type_birthday" value="Birthday"
-                checked>
-            <li><label class="form-check-label" for="event_type_birthday">
-                    Birthday
-                </label></li>
-            <input class="form-check-input" type="radio" name="event_type" id="event_type_anniversary"
-                value="Anniversary">
-            <li><label class="form-check-label" for="event_type_anniversary">
-                    Anniversary
-                </label></li>
-            <input class="form-check-input" type="radio" name="event_type" id="event_type_custom" value="custom">
-            <li><label class="form-check-label" for="event_type_custom">
-                    Custom:
-                </label></li>
-            <input type="text" class="form-control" name="custom_event_type" placeholder="Type your own event type">
+            <li>
+                <input type="radio" name="event_type" id="event_type_birthday" value="Birthday" checked>
+                <label for="event_type_birthday">Birthday</label>
+            </li>
+            <li>
+                <input type="radio" name="event_type" id="event_type_anniversary" value="Anniversary">
+                <label for="event_type_anniversary">Anniversary</label>
+            </li>
+            <li>
+                <input type="radio" name="event_type" id="event_type_custom" value="custom">
+                <label for="event_type_custom">Custom:</label>
+                <input type="text" class="form-control" name="custom_event_type" placeholder="Type your own event type">
+            </li>
         </ul>
         <button type="submit">Add Event</button>
     </div>

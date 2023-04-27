@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
-from .models import User, Event, Wishlist
-from .utils import is_valid_date
+from .models import User, Event, Wishlist, UserEvent, UserGroup, Pair
+from .utils import hash_password
 from .database import db
 from .auth import register, login, logout, reset_password, profile, register_group
 
@@ -55,11 +55,27 @@ def events():
             user = User.query.filter_by(username=username).first()
             events = Event.query.filter_by(user_id=user.id).all()
 
+            # Check if the user has any events
+            if not events:
+                no_events_message = "You have no events."
+            else:
+                no_events_message = None
+
             # Render template with events
-            return render_template('events.html', events=events)
+            return render_template('events.html', events=events, no_events_message=no_events_message)
         if request.method == 'POST':
             # Get the id of the event to delete
             event_id = request.form['event_id']
+
+            # Delete the associated Pairs for the event
+            pairs = Pair.query.filter_by(event_id=event_id).all()
+            for pair in pairs:
+                db.session.delete(pair)
+
+            # Delete the associated UserEvent instances
+            user_events = UserEvent.query.filter_by(event_id=event_id).all()
+            for user_event in user_events:
+                db.session.delete(user_event)
 
             # Delete the event from the database
             event = Event.query.get(event_id)
@@ -176,7 +192,7 @@ def modify_group():
         group_password = request.form['group_password']
 
         # Hash the password
-        hash_group_password = hashlib.sha256(group_password.encode('utf-8')).hexdigest()
+        hash_group_password = hash_password(group_password)
 
         # Connect to database
         db = get_db()

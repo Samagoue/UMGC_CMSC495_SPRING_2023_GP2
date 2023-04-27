@@ -45,7 +45,6 @@ class Group(db.Model):
     pairs = db.relationship("Pair", back_populates="group")
     users = db.relationship("UserGroup", back_populates="group")
 
-
 class Pair(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     giver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
