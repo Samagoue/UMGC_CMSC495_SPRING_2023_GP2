@@ -55,8 +55,8 @@ def test_users():
   db.session.commit()
 
   # Create test pairs
-  test_pair_1 = Pair(giver_id=test_user_1.id, receiver_id=test_user_2.id, event_id=test_event_1.id, group_id=test_group_1.id)
-  test_pair_2 = Pair(giver_id=test_user_2.id, receiver_id=test_user_1.id, event_id=test_event_2.id, group_id=test_group_2.id)
+  test_pair_1 = Pair(giver_id=test_user_1.id, receiver_id=test_user_2.id, group_id=test_group_1.id)
+  test_pair_2 = Pair(giver_id=test_user_2.id, receiver_id=test_user_1.id, group_id=test_group_2.id)
 
   # Add pairs to the database
   db.session.add(test_pair_1)

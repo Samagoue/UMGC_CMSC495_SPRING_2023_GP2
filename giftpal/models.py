@@ -25,7 +25,6 @@ class Event(db.Model):
     date = db.Column(db.String(8), nullable=False)
     type = db.Column(db.String(50))
 
-    pairs = db.relationship("Pair", back_populates="event")
     users = db.relationship("UserEvent", back_populates="event")
 
 class Wishlist(db.Model):
@@ -49,12 +48,10 @@ class Pair(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     giver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
 
     giver = db.relationship("User", back_populates="given_pairs", foreign_keys=[giver_id])
     receiver = db.relationship("User", back_populates="received_pairs", foreign_keys=[receiver_id])
-    event = db.relationship("Event", back_populates="pairs")
     group = db.relationship("Group", back_populates="pairs")
 
 class UserEvent(db.Model):
