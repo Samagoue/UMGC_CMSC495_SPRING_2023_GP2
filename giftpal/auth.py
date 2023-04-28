@@ -107,9 +107,10 @@ def profile():
     return render_template('profile.html', username=user.username, first_name=user.first_name, last_name=user.last_name, email=user.email, dob=user.dob)
 
 
-def register_group(): 
+def group_register(): 
         group_name = request.form['group_name']
         group_email = request.form['group_email']
+        min_dollar_amount = request.form['min_dollar_amount']
         group_password = request.form['group_password']
         confirm_group_password = request.form['confirm_group_password']
 
@@ -128,20 +129,20 @@ def register_group():
             #probably unnecessary for the group registration as the plan is to allow  multiple
             #emails attached to a group
             flash('A group with this email already exists!')
-            return redirect(url_for('register_group'))
+            return redirect(url_for('main.register_group'))
 
         # Check if group name is available
         group_name_exists = Group.query.filter_by(group_name=group_name).first()
 
         if group_name_exists:
             flash('This group name is already taken!')
-            return redirect(url_for('register_group'))
+            return redirect(url_for('main.register_group'))
 
         # Add the group information into the database
-        new_group = Group(group_name=group_name, group_email=group_email, group_password=enc_password)
+        new_group = Group(group_name=group_name, group_email=group_email, min_dollar_amount=min_dollar_amount, group_password=enc_password)
         db.session.add(new_group)
         db.session.commit()
 
         flash('Group Registration successful!')
         #the action after group registration bears further thought
-        return redirect(url_for('modify_group'))
+        return redirect(url_for('main.groups'))

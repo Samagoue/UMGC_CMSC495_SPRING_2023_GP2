@@ -68,4 +68,10 @@
         {% endif %}
     </div>
 </div>
+<br><br>
+<br><br>
+<br><br>
+<form action="{{ url_for('main.modify_group', group_id=group.id) }}">
+    <button type="submit">Modify Group</button>
+</form>
 {% endblock %}

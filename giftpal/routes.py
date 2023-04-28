@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from .models import User, Event, Wishlist, UserEvent, UserGroup, Pair, Group
 from .utils import hash_password
 from .database import db
-from .auth import register, login, logout, reset_password, profile, register_group
+from .auth import register, login, logout, reset_password, profile, group_register
 
 bp = Blueprint('main', __name__)
 
@@ -196,46 +196,62 @@ def register_group():
     Render and provide backend for group registration page
     """
     if request.method == 'POST':
-        register_group()
+        group_register()
 
     return render_template('register_group.html')
 
-# my modify_group route might actually be the admin route, I'm struggling with the idea
-# that the admin of group needs to login, what if each user can just modify a group by
-# knowing the password of the group? Rather than making them specific admins?
 
-
-@bp.route('/modify-group', methods=['GET', 'POST'])
-def modify_group():
+@bp.route('/modify-group/<int:group_id>', methods=['GET', 'POST'])
+def modify_group(group_id):
     """
     Render and provide backend for modify group page
     """
+    # Get the group from the database
+    group = Group.query.get_or_404(group_id)
+
     if request.method == 'POST':
-        group_name = request.form['group_name']
-        group_password = request.form['group_password']
+        # Update the group information
+        if 'group_name' in request.form:
+            group.group_name = request.form['group_name']
+        if 'group_email' in request.form:
+            group.group_email = request.form['group_email']
+        if 'min_dollar_amount' in request.form:
+            group.min_dollar_amount = request.form['min_dollar_amount']
 
-        # Hash the password
-        hash_group_password = hash_password(group_password)
+        # Hash the password if it has been changed
+        if 'group_password' in request.form and request.form['group_password']:
+            group.group_password = hash_password(
+                request.form['group_password'])
 
-        # Connect to database
-        db = get_db()
-        curs = db.cursor()
+        # Add selected users to the group
+        selected_users = request.form.getlist('users')
+        if selected_users:
+            # get existing user-group relationships
+            existing_user_groups = group.users
+            existing_user_ids = [ug.user_id for ug in existing_user_groups]
 
-        # Search for the group credentials in the database
-        curs.execute("SELECT * FROM groups WHERE name = ? AND password = ?",
-                     (group_name, hash_group_password))
-        group_name_exist = curs.fetchone()
+            # remove user-group relationships that are not in the selected users list
+            for user_group in existing_user_groups:
+                if user_group.user_id not in selected_users:
+                    db.session.delete(user_group)
 
-        # the if statement will need to be worked on
-        if group_name_exist:
-            session['group_name'] = group_name
-            # return redirect(url_for('group_page'))
+            # add user-group relationships for new selected users
+            for user_id in selected_users:
+                if user_id not in existing_user_ids:
+                    user = User.query.get(user_id)
+                    if user:
+                        user_group = UserGroup(user=user, group=group)
+                        db.session.add(user_group)
 
-        # the below two pieces of code will also need to be modified
-        flash('Invalid Group Name or Group Password!')
-        return redirect(url_for('modify_group'))
+        db.session.commit()
 
-    return render_template('modify_group.html')
+        flash('Group updated successfully!')
+        return redirect(url_for('main.group_members_pairs', group_id=group_id))
+
+    # Get a list of all the users for the dropdown menu
+    users = User.query.all()
+
+    return render_template('modify_group.html', group=group, users=users)
 
 
 @bp.route('/groups/<int:group_id>', methods=['GET', 'POST'])
@@ -249,6 +265,3 @@ def group_members_pairs(group_id):
                 match_gift_pairs(group_id)
                 pairs = Pair.query.filter_by(group=group).all()
         return render_template('group_members_pairs.html', group=group, members=members, pairs=pairs)
-
-
-

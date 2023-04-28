@@ -12,13 +12,13 @@
 
     <div class="passReqDiv">
         <h3>Group Password Requirements:</h3>
-            <ul>
-                <li>At least 8 characters</li>
-                <li>At least 1 uppercase letter</li>
-                <li>At least 1 lowercase letter</li>
-                <li>At least 1 number</li>
-                <li>At least 1 special character</li>
-            </ul>
+        <ul>
+            <li>At least 8 characters</li>
+            <li>At least 1 uppercase letter</li>
+            <li>At least 1 lowercase letter</li>
+            <li>At least 1 number</li>
+            <li>At least 1 special character</li>
+        </ul>
     </div>
 
     <div class="boxDiv">
@@ -28,6 +28,10 @@
             <br><br>
             <label>Group Email:</label>
             <input type="text" name="group_email" required>
+            <br><br>
+            <label>Minimum Dollar Amount:</label>
+            <input type="range" name="min_dollar_amount" min="0" max="100" oninput="document.getElementById('min-amount').innerHTML='$'+this.value" required>
+            <span id="min-amount">$50</span>
             <br><br>
             <label>Group Password:</label>
             <input type="password" name="group_password" required>
