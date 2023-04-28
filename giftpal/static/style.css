@@ -1,21 +1,24 @@
 body {
-    display: block;
     background-color: #68636a;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.2em;
 }
 
 p {
-    display: block;
     color: #ffffff;
     text-align: center;
 }
 
 h1 {
-    display: block;
     color: #003366;
     text-align: center;
 }
+
+h3 {
+    color: #ffffff;
+    text-align: center;
+  }
+  
 
 .Nav ul {
     list-style-type: none;
@@ -26,7 +29,7 @@ h1 {
 }
 
 .Nav li {
-    float: left
+    float: left;
 }
 
 .Nav li a {
@@ -51,24 +54,25 @@ h1 {
 }
 
 .footer-items li {
-    float: left
+    float: left;
 }
 
 form {
-    display: block;
     color: #ffffff;
     text-align: center;
 }
 
-input[type=text],
-[type=password] {
+input[type="text"],
+input[type="password"] {
     width: 100%;
     padding: 12px 10px;
     margin: 8px 0;
     box-sizing: border-box;
 }
 
-input[type=submit] {
+input[type="submit"],
+button[type="submit"],
+[type="button"] {
     background-color: #003366;
     border: none;
     color: white;
@@ -78,22 +82,9 @@ input[type=submit] {
     cursor: pointer;
 }
 
-input[type=submit]:hover {
-    background-color: #06066e;
-    color: white;
-}
-
-button[type=submit] {
-    background-color: #003366;
-    border: none;
-    color: white;
-    padding: 16px 70px;
-    text-decoration: none;
-    margin: auto;
-    cursor: pointer;
-}
-
-button[type=submit]:hover {
+input[type="submit"]:hover,
+button[type="submit"]:hover,
+[type="button"]:hover {
     background-color: #06066e;
     color: white;
 }
@@ -109,12 +100,12 @@ button[type=submit]:hover {
 table,
 th,
 td {
-    border: 1px solid;
+    border: 1px solid #ffffff;
     margin: auto;
     padding: 16px 20px;
     border-collapse: collapse;
     background-color: #292626;
-    color: white;
+    color: #ffffff;
 }
 
 .boxDiv li {
@@ -137,7 +128,7 @@ td {
     border-radius: 5px;
     background-color: #292626;
     padding: 10px;
-    color: white;
+    color: #ffffff;
 }
 
 .passReqDiv li {
@@ -147,10 +138,30 @@ td {
 
 .passReqDiv ul {
     background-color: #292626;
+    list-style: none;
+    margin: 0;
+    padding: 5px;
 }
 
 .grid-container {
-    display: flex;
+    display: grid;
     grid-template-columns: auto auto;
     grid-gap: 1px;
+}
+
+.delete input[type="submit"],
+.delete button {
+    background-color: #bf2222;
+    border: none;
+    color: #ffffff;
+    padding: 16px 70px;
+    text-decoration: none;
+    margin: auto;
+    cursor: pointer;
+}
+
+.delete input[type="submit"]:hover,
+.delete button:hover {
+    background-color: #820707;
+    color: #ffffff;
 }
