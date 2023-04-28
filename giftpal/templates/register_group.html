@@ -22,7 +22,7 @@
     </div>
 
     <div class="boxDiv">
-        <form method="POST" action="{{ url_for('main.register_group_route') }}">
+        <form method="POST" action="{{ url_for('main.register_group') }}">
             <label>Group Name:</label>
             <input type="text" name="group_name" required>
             <br><br>
@@ -38,9 +38,6 @@
             <br><br>
             <label>Confirm Group Password:</label>
             <input type="password" name="confirm_group_password" required>
-            <br><br>
-            <label>Min Dollar Amount For Group Gift Exchange</label>
-            <input type="number" name="min_dollar_amount" required>
             <br><br>
             <input type="submit" value="Register Group">
         </form>
