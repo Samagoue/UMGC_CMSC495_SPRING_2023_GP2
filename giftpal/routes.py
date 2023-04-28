@@ -3,6 +3,7 @@ from .models import User, Event, Wishlist, UserEvent, UserGroup, Pair, Group
 from .utils import hash_password
 from .database import db
 from .auth import register, login, logout, reset_password, profile, group_register
+from .gift_exchange import match_gift_pairs
 
 bp = Blueprint('main', __name__)
 
