@@ -24,7 +24,9 @@ Wishlist
             <td>
                 <form method="POST" action="/wishlist">
                     <input type="hidden" name="wish_id" value="{{ wish.id }}">
-                    <button type="submit">Delete</button>
+                    <div class="delete">
+                        <button type="submit">Delete</button>
+                    </div>
                 </form>
             </td>
         </tr>

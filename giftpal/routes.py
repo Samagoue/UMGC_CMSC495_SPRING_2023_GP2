@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
-from .models import User, Event, Wishlist, UserEvent, UserGroup, Pair
+from .models import User, Event, Wishlist, UserEvent, UserGroup, Pair, Group
 from .utils import hash_password
 from .database import db
 from .auth import register, login, logout, reset_password, profile, register_group
 
 bp = Blueprint('main', __name__)
+
 
 @bp.route('/')
 def home():
@@ -13,11 +14,13 @@ def home():
     """
     return render_template('home.html')
 
+
 @bp.route('/register', methods=['GET', 'POST'])
 def register_route():
     if request.method == 'POST':
         return register()
     return render_template('register.html')
+
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login_route():
@@ -25,9 +28,11 @@ def login_route():
         return login()
     return render_template('login.html')
 
+
 @bp.route('/logout')
 def logout_route():
     return logout()
+
 
 @bp.route('/reset-password', methods=['GET', 'POST'])
 def reset_password_route():
@@ -36,12 +41,14 @@ def reset_password_route():
     else:
         return redirect(url_for('main.login_route'))
 
+
 @bp.route('/profile')
 def profile_route():
     if 'username' in session:
         return profile()
     else:
         return redirect(url_for('main.login_route'))
+
 
 @bp.route('/events', methods=['GET', 'POST'])
 def events():
@@ -90,6 +97,7 @@ def events():
     else:
         return redirect(url_for('main.login_route'))
 
+
 @bp.route('/add-event', methods=['GET', 'POST'])
 def add_event():
     """
@@ -105,7 +113,8 @@ def add_event():
                 event_type = request.form['custom_event_type']
 
             user = User.query.filter_by(username=username).first()
-            event = Event(name=name, date=date, type=event_type, user_id=user.id)
+            event = Event(name=name, date=date,
+                          type=event_type, user_id=user.id)
             db.session.add(event)
             db.session.commit()
 
@@ -115,6 +124,7 @@ def add_event():
         return render_template('add_event.html')
     else:
         return redirect(url_for('main.login_route'))
+
 
 @bp.route('/wishlist', methods=['GET', 'POST'])
 def wishlist():
@@ -147,6 +157,7 @@ def wishlist():
     else:
         return redirect(url_for('main.login_route'))
 
+
 @bp.route('/add-wish', methods=['GET', 'POST'])
 def add_wish():
     """
@@ -164,12 +175,22 @@ def add_wish():
 
             flash('Wish added successfully!')
             return redirect(url_for('main.wishlist'))
-        
+
         return render_template('add_wish.html')
     else:
         return redirect(url_for('main.login_route'))
 
-@bp.route('/register_group', methods=['GET', 'POST'])
+
+@bp.route('/groups', methods=['GET'])
+def groups():
+    if 'username' in session:
+        groups = Group.query.all()
+        return render_template('groups.html', groups=groups)
+    else:
+        return redirect(url_for('main.login_route'))
+
+
+@bp.route('/register-group', methods=['GET', 'POST'])
 def register_group():
     """
     Render and provide backend for group registration page
@@ -179,10 +200,12 @@ def register_group():
 
     return render_template('register_group.html')
 
-#my modify_group route might actually be the admin route, I'm struggling with the idea
-#that the admin of group needs to login, what if each user can just modify a group by
-#knowing the password of the group? Rather than making them specific admins? 
-@bp.route('/modify_group', methods=['GET', 'POST'])
+# my modify_group route might actually be the admin route, I'm struggling with the idea
+# that the admin of group needs to login, what if each user can just modify a group by
+# knowing the password of the group? Rather than making them specific admins?
+
+
+@bp.route('/modify-group', methods=['GET', 'POST'])
 def modify_group():
     """
     Render and provide backend for modify group page
@@ -200,16 +223,32 @@ def modify_group():
 
         # Search for the group credentials in the database
         curs.execute("SELECT * FROM groups WHERE name = ? AND password = ?",
-                  (group_name, hash_group_password))
+                     (group_name, hash_group_password))
         group_name_exist = curs.fetchone()
 
-        #the if statement will need to be worked on
+        # the if statement will need to be worked on
         if group_name_exist:
             session['group_name'] = group_name
-            #return redirect(url_for('group_page'))
+            # return redirect(url_for('group_page'))
 
-        #the below two pieces of code will also need to be modified
+        # the below two pieces of code will also need to be modified
         flash('Invalid Group Name or Group Password!')
         return redirect(url_for('modify_group'))
 
     return render_template('modify_group.html')
+
+
+@bp.route('/groups/<int:group_id>', methods=['GET', 'POST'])
+def group_members_pairs(group_id):
+    if 'username' in session:
+        group = Group.query.get_or_404(group_id)
+        pairs = Pair.query.filter_by(group=group).all()
+        members = group.users
+        if request.method == 'POST':
+            if not pairs:
+                match_gift_pairs(group_id)
+                pairs = Pair.query.filter_by(group=group).all()
+        return render_template('group_members_pairs.html', group=group, members=members, pairs=pairs)
+
+
+
