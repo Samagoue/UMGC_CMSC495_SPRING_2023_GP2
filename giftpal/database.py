@@ -1,6 +1,4 @@
-import sqlite3
 import os
-from flask import g
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -10,28 +8,6 @@ dbdir = os.path.join(base_dir, '..', 'database')
 # Create db file if it doesn't exist
 def create_db():
     os.makedirs(dbdir, exist_ok=True)
-    if not os.path.isfile(dbdir + '/giftpal.db'):
-        open(dbdir + '/giftpal.db', 'w').close()
-
-# Connect to the SQLite database
-def get_db():
-    if not hasattr(g, 'sqlite_db'):
-        g.sqlite_db = sqlite3.connect(dbdir + '/giftpal.db')
-        g.sqlite_db.row_factory = sqlite3.Row
-    return g.sqlite_db
-
-# Initialize the SQLite database
-def init_db():
-    create_db()
-    conn = get_db()
-    
-    # Get the current directory and build the absolute path to schema.sql and init.sq
-    init_path = os.path.join(base_dir, '..', 'database', 'init.sql')
-    with open(init_path, mode='r') as f:
-        conn.cursor().executescript(f.read())
-    conn.commit()
-
-# Close the database connection at the end of the request
-def close_db(error):
-    if hasattr(g, 'sqlite_db'):
-        g.sqlite_db.close()
+    db_file = os.path.join(dbdir, 'giftpal.db')
+    if not os.path.isfile(db_file):
+        open(db_file, 'w').close()

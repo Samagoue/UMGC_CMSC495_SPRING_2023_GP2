@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+Groups
+{% endblock %}
+
+{% block navigation %}
+{% include 'navigation.html' %}
+{% endblock %}
+
+{% block content %}
+<h1>All Groups</h1>
+{% if groups %}
+<p>Select a group below to see group members:</p>
+<table>
+    <thead>
+        <tr>
+            <th>Group</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for group in groups %}
+        <tr>
+            <td>
+                <a href="{{ url_for('main.group_members_pairs', group_id=group.id) }}">
+                    <button type="button" class="btn btn-primary">{{ group.group_name }}</button>
+                </a>
+            </td>
+            <td>
+                <form method="POST" action="/groups">
+                    <input type="hidden" name="group_id" value="{{ group.id }}">
+                    <div class="delete">
+                        <button type="submit">Delete</button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No groups have been created.</p>
+{% endif %}
+
+<br><br>
+<form action="{{ url_for('main.register_group') }}">
+    <button type="submit">Create New Group</button>
+</form>
+{% endblock %}

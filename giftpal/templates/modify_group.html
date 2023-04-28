@@ -6,25 +6,52 @@
 {% endblock %}
 
 {% block content %}
+
 <h1>Modify Group</h1>
-<div class="boxDiv">
-    <form method="POST" action="{{ url_for('main.modify_group') }}">
-        <label>Group Name:</label>
-        <input type="text" name="group_name" required>
-        <br><br>
-        <label>Modification:</label>
-        <select name="modify_selection" id="modify_selection">
-            <option value="add_user">Add User</option>
-            <option value="delete_user">Delete User</option>
-        </select>        
-        <br><br>
-        <label>User Name:</label>
-        <input type="text" name="user_name" required>
-        <br><br>
-        <label>User Email:</label>
-        <input type="text" name="user_email" required>
-        <br><br>
-        <input type="submit" value="Submit Group Modifications">
-    </form>
+<div class="grid-container">
+    <div class="passReqDiv">
+        <h3>Group Password Requirements:</h3>
+        <ul>
+            <li>At least 8 characters</li>
+            <li>At least 1 uppercase letter</li>
+            <li>At least 1 lowercase letter</li>
+            <li>At least 1 number</li>
+            <li>At least 1 special character</li>
+        </ul>
+    </div>
+
+    <div class="boxDiv">
+        <form method="POST" action="{{ url_for('main.modify_group', group_id=group.id) }}">
+            <label>Group Name:</label>
+            <input type="text" name="group_name" value="{{ group.group_name }}" required>
+            <br><br>
+            <label>Group Email:</label>
+            <input type="text" name="group_email" value="{{ group.group_email }}" required>
+            <br><br>
+            <label>Minimum Dollar Amount:</label>
+            <input type="range" name="min_dollar_amount" min="0" max="100" value="{{ group.min_dollar_amount }}"
+                oninput="document.getElementById('min-amount').innerHTML='$'+this.value" required>
+            <span id="min-amount">${{ group.min_dollar_amount }}</span>
+            <br><br>
+            <label>New Group Password:</label>
+            <input type="password" name="group_password">
+            <br><br>
+            <label>Confirm Group Password:</label>
+            <input type="password" name="confirm_group_password">
+            <br><br>
+            <label>Select Group Members:</label>
+            <ul>
+                {% for user in users %}
+                <div>
+                    <input type="checkbox" id="user-{{ user.id }}" name="users" value="{{ user.id }}" {% if user in
+                        group.users %}checked{% endif %}>
+                    <label for="user-{{ user.id }}">{{ user.username }}</label>
+                </div>
+                {% endfor %}
+            </ul>
+            <br><br>
+            <input type="submit" value="Save Changes">
+        </form>
+    </div>
 </div>
 {% endblock %}

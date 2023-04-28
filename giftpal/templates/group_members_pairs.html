@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ group.group_name }} Group
+{% endblock %}
+
+{% block navigation %}
+{% include 'navigation.html' %}
+{% endblock %}
+
+{% block content %}
+<h1>{{ group.group_name }} Gift Exchange Group</h1>
+<div class="grid-container">
+    <div>
+        <h3>Group Members</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Member</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_group in group.users %}
+                <tr>
+                    <td>{{ user_group.user.first_name }} {{ user_group.user.last_name }}</td>
+                    <td>
+                        <form method="POST" action="/members/delete">
+                            <input type="hidden" name="member_id" value="{{ user_group.user.id }}">
+                            <div class="delete">
+                                <button type="submit">Delete</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <h3>Gift Exchange Pairs</h3>
+        {% if pairs %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Giver</th>
+                    <th>Receiver</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pair in pairs %}
+                <tr>
+                    <td>{{ pair.giver.first_name }} {{ pair.giver.last_name }}</td>
+                    <td>{{ pair.receiver.first_name }} {{ pair.receiver.last_name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No gift exchange pairs found.</p>
+        {% endif %}
+        {% if not pairs %}
+        <form method="POST" action="/groups/{{ group.id }}">
+            <input type="hidden" name="group_id" value="{{ group.id }}">
+            <button type="submit">Initiate Gift Exchange</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+<br><br>
+<br><br>
+<br><br>
+<form action="{{ url_for('main.modify_group', group_id=group.id) }}">
+    <button type="submit">Modify Group</button>
+</form>
+{% endblock %}
