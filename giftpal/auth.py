@@ -149,33 +149,19 @@ def group_register():
         db.session.add(new_group)
         db.session.commit()
 
+        #Querying group created and logged in user to create a usergroup entry
         query_group = Group.query.filter_by(group_name=group_name).filter_by(group_email=group_email).first()
-        query_user = User.query.filter_by(username=session['username']).first()
-        print("start")
-        print(query_group)
-        print(query_group.id)
-        print(query_group.group_name)
-        print(query_group.group_email)
-        print(query_group.min_dollar_amount)
-        print("finish")
-        print("query_user_id")
-        print(query_user.id)
+        logged_in_user = User.query.filter_by(username=session['username']).first()
 
-        new_user_group = UserGroup(user_id=query_group.id, group_id=query_group.id, is_admin=True)
+        #Linking user and group by saving a UserGroup i who registers a group should be admin of that group by default
+        new_user_group = UserGroup(user_id=logged_in_user.id, group_id=query_group.id, is_admin=True)
 
         db.session.add(new_user_group)
         db.session.commit()
-#can use this information to pull modification for group in modify group
-        quereyed_UserGroup = UserGroup.query.filter_by(user_id=query_user.id).filter_by(group_id=query_group.id).first()
-        print("startINGstartINGstartINGstartINGstartING ")
-        print(quereyed_UserGroup)
-        print(quereyed_UserGroup.user_id)
-        print(quereyed_UserGroup.group_id)
-        print(quereyed_UserGroup.is_admin)  
-        print("finishINGINGINGINGfinishINGINGINGINGfinishINGINGINGINGfinishINGINGINGING finishINGINGINGING")
+    #can use this information to pull modification for group in modify group
+       # quereyed_UserGroup = UserGroup.query.filter_by(user_id=query_user.id).filter_by(group_id=query_group.id).first()
+
      
-        # db.session.add(new_group)
-        # db.session.commit()
         flash('Group Registration successful!')
         #the action after group registration bears further thought
         return redirect(url_for('main.groups'))
