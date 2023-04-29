@@ -164,6 +164,6 @@ def group_register():
        # quereyed_UserGroup = UserGroup.query.filter_by(user_id=query_user.id).filter_by(group_id=query_group.id).first()
 
      
-        flash('Group Registration successful!')
+        # flash('Group Registration successful!')
         #the action after group registration bears further thought
-        return redirect(url_for('main.groups'))
+        # return redirect(url_for('main.groups'))
