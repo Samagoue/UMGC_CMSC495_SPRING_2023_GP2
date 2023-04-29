@@ -198,6 +198,10 @@ def register_group():
     """
     if request.method == 'POST':
         group_register()
+        # flash('Group Registration successful!')
+        return redirect(url_for('main.groups'))
+
+
 
     return render_template('register_group.html')
 
@@ -209,7 +213,7 @@ def modify_group(group_id):
     """
     # Get the group from the database
     group = Group.query.get_or_404(group_id)
-
+    print("HEELLLOOOOOOOOOOOOOOOOOOOOOOOOOO\n\n\nHELLLLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOo")
     if request.method == 'POST':
         # Update the group information
         if 'group_name' in request.form:
