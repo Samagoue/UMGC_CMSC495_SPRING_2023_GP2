@@ -153,7 +153,7 @@ def group_register():
         query_group = Group.query.filter_by(group_name=group_name).filter_by(group_email=group_email).first()
         logged_in_user = User.query.filter_by(username=session['username']).first()
 
-        #Linking user and group by saving a UserGroup i who registers a group should be admin of that group by default
+        #Linking user and group by storing a UserGroup entry. User who registers a group should be admin of that group by default
         new_user_group = UserGroup(user_id=logged_in_user.id, group_id=query_group.id, is_admin=True)
 
         db.session.add(new_user_group)
