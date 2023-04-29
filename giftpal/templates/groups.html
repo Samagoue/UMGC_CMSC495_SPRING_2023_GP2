@@ -35,6 +35,11 @@ Groups
                     </div>
                 </form>
             </td>
+            <td>
+                <a href="{{ url_for('main.modify_group', group_id=group.id) }}">
+                    <button type="button" class="btn btn-primary">Modify Group</button>
+                </a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
