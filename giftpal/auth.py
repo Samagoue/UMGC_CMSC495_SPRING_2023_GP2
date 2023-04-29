@@ -110,7 +110,7 @@ def profile():
 def group_register(): 
         group_name = request.form['group_name']
         #instead of gorup email, use the email of the user
-        group_email = request.form['group_email']
+        # group_email = request.form['group_email']
 
         # group_password = request.form['group_password']
         # confirm_group_password = request.form['confirm_group_password']
@@ -146,12 +146,13 @@ def group_register():
             return redirect(url_for('main.register_group'))
 
         # Add the group information into the database
-        new_group = Group(group_name=group_name, group_email=group_email, min_dollar_amount=min_dollar_amount, group_password=enc_password)
+        # new_group = Group(group_name=group_name, group_email=group_email, min_dollar_amount=min_dollar_amount, group_password=enc_password)
+        new_group = Group(group_name=group_name, min_dollar_amount=min_dollar_amount)
         db.session.add(new_group)
         db.session.commit()
 
         #Querying group created and logged in user to create a usergroup entry
-        query_group = Group.query.filter_by(group_name=group_name).filter_by(group_email=group_email).first()
+        query_group = Group.query.filter_by(group_name=group_name).first()
         logged_in_user = User.query.filter_by(username=session['username']).first()
 
         #Linking user and group by storing a UserGroup entry. User who registers a group should be admin of that group by default
