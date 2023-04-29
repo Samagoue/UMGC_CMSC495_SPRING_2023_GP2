@@ -109,32 +109,33 @@ def profile():
 
 def group_register(): 
         group_name = request.form['group_name']
+        #instead of gorup email, use the email of the user
         group_email = request.form['group_email']
-        min_dollar_amount = request.form['min_dollar_amount']
-        group_password = request.form['group_password']
-        confirm_group_password = request.form['confirm_group_password']
+
+        # group_password = request.form['group_password']
+        # confirm_group_password = request.form['confirm_group_password']
         min_dollar_amount = request.form['min_dollar_amount']
 
         if 'username' not in session:
             flash('You need to be logged in before you can register a group!')
             return redirect(url_for('main.register_group_route'))
         # Ensure group password meets complexity requirements
-        if validate_password(group_password, confirm_group_password) is not None:
-            return redirect(url_for('main.register_group'))
+        # if validate_password(group_password, confirm_group_password) is not None:
+        #     return redirect(url_for('main.register_group'))
 
-        # Hash the group password
-        enc_password = hash_password(group_password)
+        # # Hash the group password
+        # enc_password = hash_password(group_password)
 
         # Check if there is a group registered with this email
         #Might want to consider that emails can have multiple groups attached to them
 
-        group_email_exists = Group.query.filter_by(group_email=group_email).first()
+        # group_email_exists = Group.query.filter_by(group_email=group_email).first()
 
-        if group_email_exists:
-            #probably unnecessary for the group registration as the plan is to allow  multiple
-            #emails attached to a group
-            flash('A group with this email already exists!')
-            return redirect(url_for('main.register_group'))
+        # if group_email_exists:
+        #     #probably unnecessary for the group registration as the plan is to allow  multiple
+        #     #emails attached to a group
+        #     flash('A group with this email already exists!')
+        #     return redirect(url_for('main.register_group'))
 
         # Check if group name is available
 

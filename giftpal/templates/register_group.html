@@ -8,7 +8,7 @@
 {% block content %}
 
 <h1>Registration Form</h1>
-<div class="grid-container">
+<!-- <div class="grid-container">
 
     <div class="passReqDiv">
         <h3>Group Password Requirements:</h3>
@@ -19,7 +19,7 @@
             <li>At least 1 number</li>
             <li>At least 1 special character</li>
         </ul>
-    </div>
+    </div> -->
 
     <div class="boxDiv">
         <form method="POST" action="{{ url_for('main.register_group') }}">
@@ -33,12 +33,12 @@
             <input type="range" name="min_dollar_amount" min="0" max="100" oninput="document.getElementById('min-amount').innerHTML='$'+this.value" required>
             <span id="min-amount">$50</span>
             <br><br>
-            <label>Group Password:</label>
+            <!-- <label>Group Password:</label>
             <input type="password" name="group_password" required>
             <br><br>
             <label>Confirm Group Password:</label>
             <input type="password" name="confirm_group_password" required>
-            <br><br>
+            <br><br> -->
             <input type="submit" value="Register Group">
         </form>
     </div>

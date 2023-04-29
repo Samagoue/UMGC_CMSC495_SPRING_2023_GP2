@@ -8,7 +8,7 @@
 {% block content %}
 
 <h1>Modify Group</h1>
-<div class="grid-container">
+<!-- <div class="grid-container">
     <div class="passReqDiv">
         <h3>Group Password Requirements:</h3>
         <ul>
@@ -18,27 +18,27 @@
             <li>At least 1 number</li>
             <li>At least 1 special character</li>
         </ul>
-    </div>
+    </div> -->
 
     <div class="boxDiv">
         <form method="POST" action="{{ url_for('main.modify_group', group_id=group.id) }}">
             <label>Group Name:</label>
             <input type="text" name="group_name" value="{{ group.group_name }}" required>
             <br><br>
-            <label>Group Email:</label>
+            <!-- <label>Group Email:</label>
             <input type="text" name="group_email" value="{{ group.group_email }}" required>
-            <br><br>
+            <br><br> -->
             <label>Minimum Dollar Amount:</label>
             <input type="range" name="min_dollar_amount" min="0" max="100" value="{{ group.min_dollar_amount }}"
                 oninput="document.getElementById('min-amount').innerHTML='$'+this.value" required>
             <span id="min-amount">${{ group.min_dollar_amount }}</span>
             <br><br>
-            <label>New Group Password:</label>
+            <!-- <label>New Group Password:</label>
             <input type="password" name="group_password">
             <br><br>
             <label>Confirm Group Password:</label>
             <input type="password" name="confirm_group_password">
-            <br><br>
+            <br><br> -->
             <label>Select Group Members:</label>
             <ul>
                 {% for user in users %}
