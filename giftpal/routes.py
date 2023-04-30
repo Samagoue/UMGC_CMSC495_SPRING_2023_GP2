@@ -216,13 +216,6 @@ def modify_group(group_id):
     query_group = Group.query.filter_by(id=group_id).first()
     # logged_in_user = User.query.filter_by(username=session['username']).first()
     # group_users = UserGroup.query.get_or_404(group_id)
-    print("users in the current group BEFORE adding a user\n")
-    query_user_groups = UserGroup.query.filter_by(group_id=group_id).all()
-    print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHEUEUBEUEBUBFUEBUBEFUBEUBF")
-    for user_group in query_user_groups:
-        current_user_in_group = User.query.filter_by(id=user_group.user_id).first()
-        print(current_user_in_group.username)
-        print("\n)")
 
 
     if request.method == 'POST':
@@ -234,7 +227,10 @@ def modify_group(group_id):
         
         user = User.query.filter_by(username=request.form['modify_selected_user']).first()
         
-        if 'modify_selected_user' in request.form and user is not None:
+        #I haven't checked this code with the "user.is_admin == True" condition yet but the only thing I am worried about is if 
+        # errors when there is no user with the username. I think it should not though because the if statement should evaluate to 
+        # false first if user is None and thus not check the rest of the condition.
+        if 'modify_selected_user' in request.form and user is not None and user.is_admin == True:
             action_to_group = request.form['group_modification']
 
             if action_to_group == "add":
