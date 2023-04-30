@@ -198,7 +198,7 @@ def register_group():
     """
     if request.method == 'POST':
         group_register()
-        # flash('Group Registration successful!')
+        flash('Group Registration successful!')
         return redirect(url_for('main.groups'))
 
 
@@ -213,51 +213,85 @@ def modify_group(group_id):
     """
     # Get the group from the database
     group = Group.query.get_or_404(group_id)
-    print("HEELLLOOOOOOOOOOOOOOOOOOOOOOOOOO\n\n\nHELLLLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOo")
+    query_group = Group.query.filter_by(id=group_id).first()
+    # logged_in_user = User.query.filter_by(username=session['username']).first()
+    # group_users = UserGroup.query.get_or_404(group_id)
+    print("users in the current group BEFORE adding a user\n")
+    query_user_groups = UserGroup.query.filter_by(group_id=group_id).all()
+    print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHEUEUBEUEBUBFUEBUBEFUBEUBF")
+    for user_group in query_user_groups:
+        current_user_in_group = User.query.filter_by(id=user_group.user_id).first()
+        print(current_user_in_group.username)
+        print("\n)")
+
+
     if request.method == 'POST':
         # Update the group information
         if 'group_name' in request.form:
             group.group_name = request.form['group_name']
-        if 'group_email' in request.form:
-            group.group_email = request.form['group_email']
         if 'min_dollar_amount' in request.form:
             group.min_dollar_amount = request.form['min_dollar_amount']
+        
+        if 'add_user' in request.form:
+            user = User.query.filter_by(username=request.form['add_user']).first()
 
-        # Hash the password if it has been changed
-        if 'group_password' in request.form and request.form['group_password']:
-            group.group_password = hash_password(
-                request.form['group_password'])
+            print(query_group.id)
+            print(user.id)
+            print(query_group.group_name)
 
-        # Add selected users to the group
-        selected_users = request.form.getlist('users')
-        if selected_users:
-            # get existing user-group relationships
-            existing_user_groups = group.users
-            existing_user_ids = [ug.user_id for ug in existing_user_groups]
+            # new_user_group = UserGroup(user_id=user.id, group_id=group.id, is_admin=False)
+            new_user_group = UserGroup(user_id=user.id, group_id=query_group.id, is_admin=False)
 
-            # remove user-group relationships that are not in the selected users list
-            for user_group in existing_user_groups:
-                if user_group.user_id not in selected_users:
-                    db.session.delete(user_group)
+            db.session.add(new_user_group)
+    
+        # # Add selected users to the group
+        # selected_users = request.form.getlist('users')
+        # if selected_users:
+        #     # get existing user-group relationships
+        #     existing_user_groups = group.users
+        #     existing_user_ids = [ug.user_id for ug in existing_user_groups]
 
-            # add user-group relationships for new selected users
-            for user_id in selected_users:
-                if user_id not in existing_user_ids:
-                    user = User.query.get(user_id)
-                    if user:
-                        user_group = UserGroup(user=user, group=group)
-                        db.session.add(user_group)
+        #     # remove user-group relationships that are not in the selected users list
+        #     for user_group in existing_user_groups:
+        #         if user_group.user_id not in selected_users:
+        #             db.session.delete(user_group)
+
+        #     # add user-group relationships for new selected users
+        #     for user_id in selected_users:
+        #         if user_id not in existing_user_ids:
+        #             user = User.query.get(user_id)
+        #             if user:
+        #                 user_group = UserGroup(user=user, group=group)
+        #                 db.session.add(user_group)
 
         db.session.commit()
-
+        print("users in the current group AFTER adding a user\n")
+        query_user_groups = UserGroup.query.filter_by(group_id=group_id).all()
+        print("HHAHAHAHAHNNNFIENFOIEFIOWEFIUWEFUNIUWFENIUENFUIHFWE")
+        for user_group in query_user_groups:
+            current_user_in_group = User.query.filter_by(id=user_group.user_id).first()
+            print(current_user_in_group.username)
+            print("\n)")
         flash('Group updated successfully!')
-        return redirect(url_for('main.group_members_pairs', group_id=group_id))
+        return redirect(url_for('main.groups', group_id=group_id))
 
     # Get a list of all the users for the dropdown menu
     users = User.query.all()
 
     return render_template('modify_group.html', group=group, users=users)
 
+
+# @bp.route('/groups/<int:group_id>', methods=['GET', 'POST'])
+# def group_members_pairs(group_id):
+#     if 'username' in session:
+#         group_users = UserGroup.query.filter_by(group_id=group_id).all()
+#         # pairs = Pair.query.filter_by(group=group).all()
+#         # members = group.users
+#         if request.method == 'POST':
+#             if not pairs:
+#                 match_gift_pairs(group_id)
+#                 pairs = Pair.query.filter_by(group=group).all()
+#         return render_template('group_members_pairs.html', group=group, members=members, pairs=pairs)
 
 @bp.route('/groups/<int:group_id>', methods=['GET', 'POST'])
 def group_members_pairs(group_id):
