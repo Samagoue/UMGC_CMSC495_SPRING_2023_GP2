@@ -39,7 +39,7 @@
             <label>Confirm Group Password:</label>
             <input type="password" name="confirm_group_password">
             <br><br> -->
-            <label>Select Group Members:</label>
+            <!-- <label>Select Group Members:</label>
             <ul>
                 {% for user in users %}
                 <div>
@@ -48,9 +48,20 @@
                     <label for="user-{{ user.id }}">{{ user.username }}</label>
                 </div>
                 {% endfor %}
-            </ul>
+            </ul> -->
+            <label>Enter Username</label>
+            <input type="text" name="add_user" id="add_user">
             <br><br>
-            <input type="submit" value="Save Changes">
+            <select name="group_modification" id="group_modification">
+                <option value="add">Add</option>
+                <option value="make_admin">Make Admin</option>
+                <option value="delete">Delete</option>
+              </select>
+            <br><br>
+            <!-- <input type="submit" value="Save Changes"> -->
+            <form action="{{ url_for('main.groups') }}">
+                <button type="submit">Save Changes</button>
+            </form>
         </form>
     </div>
 </div>
