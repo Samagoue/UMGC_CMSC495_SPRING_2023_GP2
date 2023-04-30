@@ -232,17 +232,26 @@ def modify_group(group_id):
         if 'min_dollar_amount' in request.form:
             group.min_dollar_amount = request.form['min_dollar_amount']
         
-        if 'add_user' in request.form:
-            user = User.query.filter_by(username=request.form['add_user']).first()
+        user = User.query.filter_by(username=request.form['modify_selected_user']).first()
+        
+        if 'modify_selected_user' in request.form and user is not None:
+            action_to_group = request.form['group_modification']
 
-            print(query_group.id)
-            print(user.id)
-            print(query_group.group_name)
+            if action_to_group == "add":
+                new_user_group = UserGroup(user_id=user.id, group_id=query_group.id, is_admin=False)
+                db.session.add(new_user_group)
+            elif action_to_group == "delete":
+                deleted_user_group = UserGroup.query.filter_by(user_id=user.id, group_id=group_id).first()
+                db.session.delete(deleted_user_group)
+            elif action_to_group == "make_admin":
+                user_group = UserGroup.query.filter_by(user_id=user.id, group_id=group_id).first()
+                user_group.is_admin = True
+        
+        db.session.commit()
 
-            # new_user_group = UserGroup(user_id=user.id, group_id=group.id, is_admin=False)
-            new_user_group = UserGroup(user_id=user.id, group_id=query_group.id, is_admin=False)
+        flash('Group updated successfully!')
+        return redirect(url_for('main.groups', group_id=group_id))
 
-            db.session.add(new_user_group)
     
         # # Add selected users to the group
         # selected_users = request.form.getlist('users')
@@ -263,17 +272,6 @@ def modify_group(group_id):
         #             if user:
         #                 user_group = UserGroup(user=user, group=group)
         #                 db.session.add(user_group)
-
-        db.session.commit()
-        print("users in the current group AFTER adding a user\n")
-        query_user_groups = UserGroup.query.filter_by(group_id=group_id).all()
-        print("HHAHAHAHAHNNNFIENFOIEFIOWEFIUWEFUNIUWFENIUENFUIHFWE")
-        for user_group in query_user_groups:
-            current_user_in_group = User.query.filter_by(id=user_group.user_id).first()
-            print(current_user_in_group.username)
-            print("\n)")
-        flash('Group updated successfully!')
-        return redirect(url_for('main.groups', group_id=group_id))
 
     # Get a list of all the users for the dropdown menu
     users = User.query.all()
