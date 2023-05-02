@@ -109,34 +109,11 @@ def profile():
 
 def group_register(): 
         group_name = request.form['group_name']
-        group_email = request.form['group_email']
-        min_dollar_amount = request.form['min_dollar_amount']
-        group_password = request.form['group_password']
-        confirm_group_password = request.form['confirm_group_password']
         min_dollar_amount = request.form['min_dollar_amount']
 
         if 'username' not in session:
             flash('You need to be logged in before you can register a group!')
             return redirect(url_for('main.register_group_route'))
-        # Ensure group password meets complexity requirements
-        if validate_password(group_password, confirm_group_password) is not None:
-            return redirect(url_for('main.register_group'))
-
-        # Hash the group password
-        enc_password = hash_password(group_password)
-
-        # Check if there is a group registered with this email
-        #Might want to consider that emails can have multiple groups attached to them
-
-        group_email_exists = Group.query.filter_by(group_email=group_email).first()
-
-        if group_email_exists:
-            #probably unnecessary for the group registration as the plan is to allow  multiple
-            #emails attached to a group
-            flash('A group with this email already exists!')
-            return redirect(url_for('main.register_group'))
-
-        # Check if group name is available
 
         group_name_exists = Group.query.filter_by(group_name=group_name).first()
 
@@ -145,12 +122,13 @@ def group_register():
             return redirect(url_for('main.register_group'))
 
         # Add the group information into the database
-        new_group = Group(group_name=group_name, group_email=group_email, min_dollar_amount=min_dollar_amount, group_password=enc_password)
+        new_group = Group(group_name=group_name, min_dollar_amount=min_dollar_amount)
+
         db.session.add(new_group)
         db.session.commit()
 
         #Querying group created and logged in user to create a usergroup entry
-        query_group = Group.query.filter_by(group_name=group_name).filter_by(group_email=group_email).first()
+        query_group = Group.query.filter_by(group_name=group_name).first()
         logged_in_user = User.query.filter_by(username=session['username']).first()
 
         #Linking user and group by storing a UserGroup entry. User who registers a group should be admin of that group by default
@@ -158,8 +136,6 @@ def group_register():
 
         db.session.add(new_user_group)
         db.session.commit()
-    #can use this information to pull modification for group in modify group
-       # quereyed_UserGroup = UserGroup.query.filter_by(user_id=query_user.id).filter_by(group_id=query_group.id).first()
 
      
         flash('Group Registration successful!')
