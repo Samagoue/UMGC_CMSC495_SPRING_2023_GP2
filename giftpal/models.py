@@ -13,7 +13,7 @@ class User(db.Model):
     is_admin = db.Column(db.Boolean, default=False)
 
     events = db.relationship("UserEvent", back_populates="user")
-    # groups = db.relationship("UserGroup", back_populates="user")
+    groups = db.relationship("UserGroup", back_populates="user")
     wishlists = db.relationship("Wishlist", back_populates="user")
     given_pairs = db.relationship("Pair", back_populates="giver", foreign_keys="Pair.giver_id")
     received_pairs = db.relationship("Pair", back_populates="receiver", foreign_keys="Pair.receiver_id")
@@ -38,11 +38,9 @@ class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     group_name = db.Column(db.String(100), nullable=False)
     min_dollar_amount = db.Column(db.Integer, nullable=False)
-    group_email = db.Column(db.String(50), unique=True, nullable=False)
-    group_password = db.Column(db.String(64), nullable=False)
 
     pairs = db.relationship("Pair", back_populates="group")
-    # users = db.relationship("UserGroup", back_populates="group")
+    users = db.relationship("UserGroup", back_populates="group")
 
 class Pair(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -63,6 +61,6 @@ class UserEvent(db.Model):
 class UserGroup(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'), primary_key=True)
-    # user = db.relationship("User", back_populates="groups")
-    # group = db.relationship("Group", back_populates="users")
+    user = db.relationship("User", back_populates="groups")
+    group = db.relationship("Group", back_populates="users")
     is_admin = db.Column(db.Boolean, default=False)
