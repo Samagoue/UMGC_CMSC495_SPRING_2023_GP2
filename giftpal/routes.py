@@ -198,6 +198,8 @@ def register_group():
     """
     if request.method == 'POST':
         group_register()
+        flash('Group Registration successful!')
+        return redirect(url_for('main.groups'))
 
     return render_template('register_group.html')
 
@@ -209,51 +211,47 @@ def modify_group(group_id):
     """
     # Get the group from the database
     group = Group.query.get_or_404(group_id)
+    # I'm pretty sure query_goup and group are the same thing
+    query_group = Group.query.filter_by(id=group_id).first()
+
 
     if request.method == 'POST':
         # Update the group information
         if 'group_name' in request.form:
             group.group_name = request.form['group_name']
-        if 'group_email' in request.form:
-            group.group_email = request.form['group_email']
         if 'min_dollar_amount' in request.form:
             group.min_dollar_amount = request.form['min_dollar_amount']
+        
+        logged_in_user = User.query.filter_by(username=session['username']).first()
+        logged_in_user_is_admin = UserGroup.query.filter_by(user_id=logged_in_user.id, group_id=query_group.id).first().is_admin
+        user = User.query.filter_by(username=request.form['modify_selected_user']).first()
+        
 
-        # Hash the password if it has been changed
-        if 'group_password' in request.form and request.form['group_password']:
-            group.group_password = hash_password(
-                request.form['group_password'])
+        #First if condition checks if the logged in user is an admin of the group in question.
+        #Second if condition checks that there is a username in the input field
+        # third if condition checks that the user exists in the database (probably unnecessary to have the second condition if we have the third)
+        if logged_in_user_is_admin:
+            if 'modify_selected_user' in request.form:
+                if user is not None: 
+                    action_to_group = request.form['group_modification']
 
-        # Add selected users to the group
-        selected_users = request.form.getlist('users')
-        if selected_users:
-            # get existing user-group relationships
-            existing_user_groups = group.users
-            existing_user_ids = [ug.user_id for ug in existing_user_groups]
-
-            # remove user-group relationships that are not in the selected users list
-            for user_group in existing_user_groups:
-                if user_group.user_id not in selected_users:
-                    db.session.delete(user_group)
-
-            # add user-group relationships for new selected users
-            for user_id in selected_users:
-                if user_id not in existing_user_ids:
-                    user = User.query.get(user_id)
-                    if user:
-                        user_group = UserGroup(user=user, group=group)
-                        db.session.add(user_group)
-
+                    if action_to_group == "add":
+                        new_user_group = UserGroup(user_id=user.id, group_id=query_group.id, is_admin=False)
+                        db.session.add(new_user_group)
+                    elif action_to_group == "delete":
+                        deleted_user_group = UserGroup.query.filter_by(user_id=user.id, group_id=group_id).first()
+                        db.session.delete(deleted_user_group)
+                    elif action_to_group == "make_admin":
+                        user_group = UserGroup.query.filter_by(user_id=user.id, group_id=group_id).first()
+                        user_group.is_admin = True
+           
         db.session.commit()
 
         flash('Group updated successfully!')
-        return redirect(url_for('main.group_members_pairs', group_id=group_id))
+        return redirect(url_for('main.groups', group_id=group_id))
 
-    # Get a list of all the users for the dropdown menu
-    users = User.query.all()
 
-    return render_template('modify_group.html', group=group, users=users)
-
+    return render_template('modify_group.html', group=group)
 
 @bp.route('/groups/<int:group_id>', methods=['GET', 'POST'])
 def group_members_pairs(group_id):
