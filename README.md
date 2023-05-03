@@ -28,7 +28,8 @@ Access the cloned folder and run:
 
 ## Using
 
-    docker run -p 5000:5000 giftpal
+    export OPENAI_API_KEY=<your openai api key>
+    docker run -p 5000:5000 -e OPENAI_API_KEY=$OPENAI_API_KEY giftpal
 
 Access the application at http://localhost:5000
 

@@ -53,6 +53,10 @@
                 <tr>
                     <td>{{ pair.giver.first_name }} {{ pair.giver.last_name }}</td>
                     <td>{{ pair.receiver.first_name }} {{ pair.receiver.last_name }}</td>
+                    <td>
+                        <button class="gift-suggestion-btn" data-receiver-id="{{ pair.receiver.id }}" data-pair-id="{{ pair.id }}">Get Gift Suggestion</button>
+                        <span class="gift-suggestion-text" style="display:none;"></span>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -67,6 +71,14 @@
         </form>
         {% endif %}
     </div>
+
+    <div>
+        <div class="gift-suggestions-container">
+            <h3>Gift Suggestions</h3>
+            <div id="gift-suggestions" class="scrollable">
+            </div>
+        </div>
+    </div>
 </div>
 <br><br>
 <br><br>
@@ -74,4 +86,36 @@
 <form action="{{ url_for('main.modify_group', group_id=group.id) }}">
     <button type="submit">Modify Group</button>
 </form>
+
+<script>
+    async function fetchGiftSuggestion(receiverId, pairId) {
+        const response = await fetch(`/gift_suggestion/${receiverId}/${pairId}`);
+        const data = await response.json();
+        return data;
+    }
+    
+    function displaySuggestion(receiverName, suggestion) {
+        const giftSuggestions = document.getElementById("gift-suggestions");
+        const newSuggestion = document.createElement("p");
+        newSuggestion.innerText = `${receiverName}: ${suggestion}`;
+        giftSuggestions.appendChild(newSuggestion);
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const suggestionBtns = document.querySelectorAll(".gift-suggestion-btn");
+
+        suggestionBtns.forEach(btn => {
+            btn.addEventListener("click", async function() {
+                const receiverId = btn.dataset.receiverId;
+                const pairId = btn.dataset.pairId;
+                const receiverName = btn.parentElement.previousElementSibling.textContent.trim();
+
+                const suggestionData = await fetchGiftSuggestion(receiverId, pairId);
+                const suggestion = suggestionData;
+
+                displaySuggestion(receiverName, suggestion);
+            });
+        });
+    });
+</script>
 {% endblock %}

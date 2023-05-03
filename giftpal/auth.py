@@ -1,4 +1,3 @@
-import hashlib
 from flask import render_template, request, redirect, url_for, session, flash
 from .models import db, User, Group, UserGroup
 
@@ -105,39 +104,3 @@ def profile():
     print(username)
     user = User.query.filter_by(username=username).first()
     return render_template('profile.html', username=user.username, first_name=user.first_name, last_name=user.last_name, email=user.email, dob=user.dob)
-
-
-def group_register(): 
-        group_name = request.form['group_name']
-        min_dollar_amount = request.form['min_dollar_amount']
-
-        if 'username' not in session:
-            flash('You need to be logged in before you can register a group!')
-            return redirect(url_for('main.register_group_route'))
-
-        group_name_exists = Group.query.filter_by(group_name=group_name).first()
-
-        if group_name_exists:
-            flash('This group name is already taken!')
-            return redirect(url_for('main.register_group'))
-
-        # Add the group information into the database
-        new_group = Group(group_name=group_name, min_dollar_amount=min_dollar_amount)
-
-        db.session.add(new_group)
-        db.session.commit()
-
-        #Querying group created and logged in user to create a usergroup entry
-        query_group = Group.query.filter_by(group_name=group_name).first()
-        logged_in_user = User.query.filter_by(username=session['username']).first()
-
-        #Linking user and group by storing a UserGroup entry. User who registers a group should be admin of that group by default
-        new_user_group = UserGroup(user_id=logged_in_user.id, group_id=query_group.id, is_admin=True)
-
-        db.session.add(new_user_group)
-        db.session.commit()
-
-     
-        flash('Group Registration successful!')
-        #the action after group registration bears further thought
-        return redirect(url_for('main.groups'))
