@@ -7,14 +7,17 @@ from .wishlist import add_wish, wishlist
 from .models import Pair, Group
 from .utils import hash_password
 from .database import db
-from .auth import register, login, logout, reset_password, profile
+from .auth import register, login, logout, reset_password, profile, setup_login
+from .admin import setup_keys
 from .gift_exchange import match_gift_pairs
 
 bp = Blueprint('main', __name__)
 
+
 @bp.route('/')
 def home():
     return render_template('home.html')
+
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register_route():
@@ -22,15 +25,18 @@ def register_route():
         return register()
     return render_template('register.html')
 
+
 @bp.route('/login', methods=['GET', 'POST'])
 def login_route():
     if request.method == 'POST':
         return login()
     return render_template('login.html')
 
+
 @bp.route('/logout')
 def logout_route():
     return logout()
+
 
 @bp.route('/reset-password', methods=['GET', 'POST'])
 def reset_password_route():
@@ -39,6 +45,7 @@ def reset_password_route():
     else:
         return redirect(url_for('main.login_route'))
 
+
 @bp.route('/profile')
 def profile_route():
     if 'username' in session:
@@ -46,12 +53,14 @@ def profile_route():
     else:
         return redirect(url_for('main.login_route'))
 
+
 @bp.route('/events', methods=['GET', 'POST'])
 def events():
     if 'username' in session:
-      return do_events()
+        return do_events()
     else:
-      return redirect(url_for('main.login_route'))
+        return redirect(url_for('main.login_route'))
+
 
 @bp.route('/add-event', methods=['GET', 'POST'])
 def add_event():
@@ -60,6 +69,7 @@ def add_event():
     else:
         return redirect(url_for('main.login_route'))
 
+
 @bp.route('/wishlist', methods=['GET', 'POST'])
 def wishlist_route():
     if 'username' in session:
@@ -67,12 +77,14 @@ def wishlist_route():
     else:
         return redirect(url_for('main.login_route'))
 
+
 @bp.route('/add-wish', methods=['GET', 'POST'])
 def add_wish_route():
     if 'username' in session:
         return add_wish()
     else:
         return redirect(url_for('main.login_route'))
+
 
 @bp.route('/groups', methods=['GET'])
 def groups():
@@ -82,6 +94,7 @@ def groups():
     else:
         return redirect(url_for('main.login_route'))
 
+
 @bp.route('/register-group', methods=['GET', 'POST'])
 def register_group():
     if request.method == 'POST':
@@ -90,6 +103,7 @@ def register_group():
         return redirect(url_for('main.groups'))
 
     return render_template('register_group.html')
+
 
 @bp.route('/modify-group/<int:group_id>', methods=['GET', 'POST'])
 def modify_group(group_id):
@@ -103,6 +117,7 @@ def modify_group(group_id):
 
     return render_template('modify_group.html', group=group)
 
+
 @bp.route('/groups/<int:group_id>', methods=['GET', 'POST'])
 def group_members_pairs(group_id):
     if 'username' in session:
@@ -115,10 +130,26 @@ def group_members_pairs(group_id):
                 pairs = Pair.query.filter_by(group=group).all()
         return render_template('group_members_pairs.html', group=group, members=members, pairs=pairs)
 
+
 @bp.route('/gift_suggestion/<int:receiver_id>/<int:pair_id>', methods=['GET'])
 def gift_suggestion(receiver_id, pair_id):
     # Call your function to get gift suggestion data
     gift_suggestion_data = get_gift_suggestion(receiver_id, pair_id)
-    
+
     # Return the data as a JSON object
     return jsonify(gift_suggestion_data)
+
+
+@bp.route('/setup-login', methods=['GET', 'POST'])
+def setup_login_route():
+    if request.method == 'POST':
+        return setup_login()
+    return render_template('setup_login.html')
+
+
+@bp.route('/setup-keys', methods=['GET', 'POST'])
+def setup_keys_route():
+    if session['username'] == 'giftpaladmin':
+        return setup_keys()
+    else:
+        return redirect(url_for('main.setup_login_route'))

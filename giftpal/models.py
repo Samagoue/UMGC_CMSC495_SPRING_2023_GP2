@@ -64,3 +64,13 @@ class UserGroup(db.Model):
     user = db.relationship("User", back_populates="groups")
     group = db.relationship("Group", back_populates="users")
     is_admin = db.Column(db.Boolean, default=False)
+
+class Key(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(50), nullable=False)
+    openai = db.Column(db.String(50), nullable=False)
+
+class Admin(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(64), nullable=False)

@@ -2,7 +2,8 @@ from flask import Flask, g
 from giftpal.database import db, create_db, dbdir
 from giftpal.routes import bp as main_bp
 from giftpal.test_users import test_users
-from giftpal.models import User
+from giftpal.admin import set_admin_user
+from giftpal.models import User, Admin
 
 def create_app():
     app = Flask(__name__)
@@ -20,6 +21,9 @@ def create_app():
         db.create_all()
         if not User.query.filter_by(username='johndoe').first():
             test_users()
+        
+        # Sets admin password and prints to console
+        set_admin_user()
    
     app.register_blueprint(main_bp)
 
