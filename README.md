@@ -26,10 +26,21 @@ Access the cloned folder and run:
 
     docker build -t giftpal .
 
-## Using
+## Setup
 
-    export OPENAI_API_KEY=<your openai api key>
-    docker run -p 5000:5000 -e OPENAI_API_KEY=$OPENAI_API_KEY giftpal
+Start the container
+
+    docker run -p 5000:5000 giftpal
+
+Login to the setup interface at http://localhost:5000/setup-login
+
+The username is `giftpaladmin`
+
+The password is generated on application launch and printed to the console
+
+Set the email and OpenAI API keys at http://localhost:5000/setup-keys
+
+## Using
 
 Access the application at http://localhost:5000
 
