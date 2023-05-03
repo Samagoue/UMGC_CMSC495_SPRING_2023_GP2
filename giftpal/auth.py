@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for, session, flash
-from .models import db, User, Group, UserGroup
+from .models import db, User, Group, UserGroup, Admin
 
 from giftpal.utils import hash_password, validate_password
 
@@ -104,3 +104,20 @@ def profile():
     print(username)
     user = User.query.filter_by(username=username).first()
     return render_template('profile.html', username=user.username, first_name=user.first_name, last_name=user.last_name, email=user.email, dob=user.dob)
+
+def setup_login():
+    username = request.form['username']
+    password = request.form['password']
+
+    # Hash the password
+    enc_password = hash_password(password)
+
+    # Search for the login credentials in the database
+    admin = Admin.query.filter_by(username=username, password=enc_password).first()
+
+    if admin:
+        session['username'] = username
+        return redirect(url_for('main.setup_keys_route'))
+
+    flash('Invalid username or password!')
+    return redirect(url_for('main.setup_login_route'))
