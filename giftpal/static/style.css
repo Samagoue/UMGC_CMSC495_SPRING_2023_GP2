@@ -1,5 +1,5 @@
 body {
-    background-color: #68636a;
+    background-color: #918b93;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.2em;
 }
@@ -166,6 +166,23 @@ td {
     color: #ffffff;
 }
 
+.modify input[type="submit"],
+.modify button {
+    background-color: #06593f;
+    border: none;
+    color: #ffffff;
+    padding: 16px 70px;
+    text-decoration: none;
+    margin: auto;
+    cursor: pointer;
+}
+
+.modify input[type="submit"]:hover,
+.modify button:hover {
+    background-color: #043727;
+    color: #ffffff;
+}
+
 .gift-suggestions-container {
     text-align: center;
     margin-top: 20px;
@@ -176,4 +193,19 @@ td {
     max-height: 200px;
     width: 600px;
     overflow-y: scroll;
+}
+
+.gift-suggestion-btn {
+    background-color: #003366;
+    border: none;
+    color: white;
+    padding: 16px 70px;
+    text-decoration: none;
+    margin: auto;
+    cursor: pointer;
+}
+
+.gift-suggestion-btn:hover {
+    background-color: #06066e;
+    color: white;
 }
