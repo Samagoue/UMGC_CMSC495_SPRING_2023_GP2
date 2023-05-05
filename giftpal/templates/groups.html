@@ -17,6 +17,7 @@ Groups
         <tr>
             <th>Group</th>
             <th>Modify</th>
+            <th>Minimum Dollar Amount</th>
         </tr>
     </thead>
     <tbody>
@@ -33,6 +34,9 @@ Groups
                         <button type="button" class="btn btn-primary">Modify Group</button>
                     </a>
                 </div>
+            </td>
+            <td>
+                <div class="min_dollar">{{ group.min_dollar_amount}}</div>
             </td>
         </tr>
         {% endfor %}
