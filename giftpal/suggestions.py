@@ -1,14 +1,19 @@
 import openai
-import os
-from .models import User, Group, Pair
+from .models import User, Group, UserGroup, Key
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+def get_gift_suggestion(receiver_id, group_id):
+    
+    openai.api_key = Key.query.filter_by(id=1).first().openai
 
-def get_gift_suggestion(receiver_id, pair_id):
     # Get the receiver's wishlist and group's minimum dollar amount
     receiver = User.query.get(receiver_id)
     wishlist_items = [item.wish for item in receiver.wishlists]
-    group = Group.query.join(Pair).filter(Pair.receiver_id == receiver_id).first()
+
+    # Check if the receiver's wishlist is empty
+    if not wishlist_items:
+        return "A suggestion cannot be made because there are no items on the receiver's wishlist."
+
+    group = Group.query.join(UserGroup).filter(UserGroup.user_id == receiver_id).first()
     group_name = group.group_name
     min_dollar_amount = group.min_dollar_amount
 

@@ -16,7 +16,7 @@ Groups
     <thead>
         <tr>
             <th>Group</th>
-            <th>Delete</th>
+            <th>Modify</th>
         </tr>
     </thead>
     <tbody>
@@ -28,17 +28,11 @@ Groups
                 </a>
             </td>
             <td>
-                <form method="POST" action="/groups">
-                    <input type="hidden" name="group_id" value="{{ group.id }}">
-                    <div class="delete">
-                        <button type="submit">Delete</button>
-                    </div>
-                </form>
-            </td>
-            <td>
-                <a href="{{ url_for('main.modify_group', group_id=group.id) }}">
-                    <button type="button" class="btn btn-primary">Modify Group</button>
-                </a>
+                <div class="modify">
+                    <a href="{{ url_for('main.modify_group', group_id=group.id) }}">
+                        <button type="button" class="btn btn-primary">Modify Group</button>
+                    </a>
+                </div>
             </td>
         </tr>
         {% endfor %}

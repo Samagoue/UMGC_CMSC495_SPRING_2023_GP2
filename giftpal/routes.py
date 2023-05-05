@@ -131,10 +131,10 @@ def group_members_pairs(group_id):
         return render_template('group_members_pairs.html', group=group, members=members, pairs=pairs)
 
 
-@bp.route('/gift_suggestion/<int:receiver_id>/<int:pair_id>', methods=['GET'])
-def gift_suggestion(receiver_id, pair_id):
+@bp.route('/gift_suggestion/<int:receiver_id>/<int:group_id>', methods=['GET'])
+def gift_suggestion(receiver_id, group_id):
     # Call your function to get gift suggestion data
-    gift_suggestion_data = get_gift_suggestion(receiver_id, pair_id)
+    gift_suggestion_data = get_gift_suggestion(receiver_id, group_id)
 
     # Return the data as a JSON object
     return jsonify(gift_suggestion_data)

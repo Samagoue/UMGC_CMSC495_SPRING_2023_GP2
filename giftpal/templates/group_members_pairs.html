@@ -17,21 +17,12 @@
             <thead>
                 <tr>
                     <th>Member</th>
-                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
                 {% for user_group in group.users %}
                 <tr>
                     <td>{{ user_group.user.first_name }} {{ user_group.user.last_name }}</td>
-                    <td>
-                        <form method="POST" action="/members/delete">
-                            <input type="hidden" name="member_id" value="{{ user_group.user.id }}">
-                            <div class="delete">
-                                <button type="submit">Delete</button>
-                            </div>
-                        </form>
-                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -46,6 +37,7 @@
                 <tr>
                     <th>Giver</th>
                     <th>Receiver</th>
+                    <th>Suggestion</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,7 +46,8 @@
                     <td>{{ pair.giver.first_name }} {{ pair.giver.last_name }}</td>
                     <td>{{ pair.receiver.first_name }} {{ pair.receiver.last_name }}</td>
                     <td>
-                        <button class="gift-suggestion-btn" data-receiver-id="{{ pair.receiver.id }}" data-pair-id="{{ pair.id }}">Get Gift Suggestion</button>
+                        <button class="gift-suggestion-btn" data-receiver-id="{{ pair.receiver.id }}"
+                            data-pair-id="{{ pair.id }}">Get Gift Suggestion</button>
                         <span class="gift-suggestion-text" style="display:none;"></span>
                     </td>
                 </tr>
@@ -81,11 +74,11 @@
     </div>
 </div>
 <br><br>
-<br><br>
-<br><br>
-<form action="{{ url_for('main.modify_group', group_id=group.id) }}">
-    <button type="submit">Modify Group</button>
-</form>
+<div class="modify">
+    <form action="{{ url_for('main.modify_group', group_id=group.id) }}">
+        <button type="submit">Modify Group</button>
+    </form>
+</div>
 
 <script>
     async function fetchGiftSuggestion(receiverId, pairId) {
@@ -93,7 +86,7 @@
         const data = await response.json();
         return data;
     }
-    
+
     function displaySuggestion(receiverName, suggestion) {
         const giftSuggestions = document.getElementById("gift-suggestions");
         const newSuggestion = document.createElement("p");
@@ -101,11 +94,11 @@
         giftSuggestions.appendChild(newSuggestion);
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const suggestionBtns = document.querySelectorAll(".gift-suggestion-btn");
 
         suggestionBtns.forEach(btn => {
-            btn.addEventListener("click", async function() {
+            btn.addEventListener("click", async function () {
                 const receiverId = btn.dataset.receiverId;
                 const pairId = btn.dataset.pairId;
                 const receiverName = btn.parentElement.previousElementSibling.textContent.trim();

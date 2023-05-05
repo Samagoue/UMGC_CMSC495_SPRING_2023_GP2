@@ -43,34 +43,34 @@ def group_register():
 # It checks that the user is an admin for the group being modified, and it checks that the user exists in the database.
 # If those conditions are met, it allows the user to add a member, delete a member, or make a member an admin of the group.
 def mod_group(group_id, group, query_group):
-  # Update the group information
-  if 'group_name' in request.form:
-      group.group_name = request.form['group_name']
-  if 'min_dollar_amount' in request.form:
-      group.min_dollar_amount = request.form['min_dollar_amount']
-  
-  logged_in_user = User.query.filter_by(username=session['username']).first()
-  logged_in_user_is_admin = UserGroup.query.filter_by(user_id=logged_in_user.id, group_id=query_group.id).first().is_admin
-  user = User.query.filter_by(username=request.form['modify_selected_user']).first()
-  
-  #First if condition checks if the logged in user is an admin of the group in question.
-  #Second if condition checks that there is a username in the input field
-  # third if condition checks that the user exists in the database (probably unnecessary to have the second condition if we have the third)
-  if logged_in_user_is_admin:
-      if 'modify_selected_user' in request.form:
-          if user is not None: 
-              action_to_group = request.form['group_modification']
+    # Update the group information
+    if 'group_name' in request.form:
+        group.group_name = request.form['group_name']
+    if 'min_dollar_amount' in request.form:
+        group.min_dollar_amount = request.form['min_dollar_amount']
 
-              if action_to_group == "add":
-                  new_user_group = UserGroup(user_id=user.id, group_id=query_group.id, is_admin=False)
-                  db.session.add(new_user_group)
-              elif action_to_group == "delete":
-                  deleted_user_group = UserGroup.query.filter_by(user_id=user.id, group_id=group_id).first()
-                  db.session.delete(deleted_user_group)
-              elif action_to_group == "make_admin":
-                  user_group = UserGroup.query.filter_by(user_id=user.id, group_id=group_id).first()
-                  user_group.is_admin = True
-      
-  db.session.commit()
+    logged_in_user = User.query.filter_by(username=session['username']).first()
 
-  return redirect(url_for('main.groups', group_id=group_id))
+    # Check if user is a part of any groups
+    if UserGroup.query.filter_by(user_id=logged_in_user.id).first():
+        logged_in_user_is_admin = UserGroup.query.filter_by(user_id=logged_in_user.id, group_id=query_group.id).first().is_admin
+
+    user = User.query.filter_by(username=request.form['modify_selected_user']).first()
+
+    if 'modify_selected_user' in request.form:
+        action_to_group = request.form['group_modification']
+
+        if action_to_group == "add" and user is not None and user.id == logged_in_user.id:
+            new_user_group = UserGroup(user_id=user.id, group_id=query_group.id, is_admin=False)
+            db.session.add(new_user_group)
+        elif logged_in_user_is_admin:
+            if action_to_group == "delete":
+                deleted_user_group = UserGroup.query.filter_by(user_id=user.id, group_id=group_id).first()
+                db.session.delete(deleted_user_group)
+            elif action_to_group == "make_admin":
+                user_group = UserGroup.query.filter_by(user_id=user.id, group_id=group_id).first()
+                user_group.is_admin = True
+
+    db.session.commit()
+
+    return redirect(url_for('main.groups', group_id=group_id))
