@@ -8,18 +8,16 @@
 {% block content %}
 
 <h1>Registration Form</h1>
-<div class="grid-container">
-    <div class="boxDiv">
-        <form method="POST" action="{{ url_for('main.register_group') }}">
-            <label>Group Name:</label>
-            <input type="text" name="group_name" required>
-            <br><br>
-            <label>Minimum Dollar Amount:</label>
-            <input type="range" name="min_dollar_amount" min="0" max="100" oninput="document.getElementById('min-amount').innerHTML='$'+this.value" required>
-            <span id="min-amount">$50</span>
-            <br><br>
-            <input type="submit" value="Register Group">
-        </form>
-    </div>
+<div class="boxDiv">
+    <form method="POST" action="{{ url_for('main.register_group') }}">
+        <label>Group Name:</label>
+        <input type="text" name="group_name" required>
+        <br><br>
+        <label>Minimum Dollar Amount:</label>
+        <input type="range" name="min_dollar_amount" min="0" max="100" oninput="document.getElementById('min-amount').innerHTML='$'+this.value" required>
+        <span id="min-amount">$50</span>
+        <br><br>
+        <input type="submit" value="Register Group">
+    </form>
 </div>
 {% endblock %}
