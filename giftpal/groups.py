@@ -40,20 +40,12 @@ def group_register():
   return redirect(url_for('main.groups'))
 
 # This code allows the user to modify a group they have admin privileges for.
-# It checks that the user is an admin for the group being modified, and it checks that the user exists in the database.
-# If those conditions are met, it allows the user to add a member, delete a member, or make a member an admin of the group.
 def mod_group(group_id, group, query_group):
     # Update the group information
     if 'group_name' in request.form:
         group.group_name = request.form['group_name']
     if 'min_dollar_amount' in request.form:
         group.min_dollar_amount = request.form['min_dollar_amount']
-
-    logged_in_user = User.query.filter_by(username=session['username']).first()
-
-    # Check if user is a part of any groups
-    if UserGroup.query.filter_by(user_id=logged_in_user.id).first():
-        logged_in_user_is_admin = UserGroup.query.filter_by(user_id=logged_in_user.id, group_id=query_group.id).first().is_admin
 
     user = User.query.filter_by(username=request.form['modify_selected_user']).first()
     if 'modify_selected_user' in request.form:
