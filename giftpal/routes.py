@@ -99,7 +99,6 @@ def groups():
 def register_group():
     if request.method == 'POST':
         group_register()
-        flash('Group Registration successful!')
         return redirect(url_for('main.groups'))
 
     return render_template('register_group.html')
