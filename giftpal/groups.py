@@ -58,17 +58,15 @@ def mod_group(group_id, group, query_group):
     user = User.query.filter_by(username=request.form['modify_selected_user']).first()
     if 'modify_selected_user' in request.form:
         action_to_group = request.form['group_modification']
-
         if action_to_group == "add" and user is not None:
             new_user_group = UserGroup(user_id=user.id, group_id=query_group.id, is_admin=False)
             db.session.add(new_user_group)
-        elif logged_in_user_is_admin:
-            if action_to_group == "delete":
-                deleted_user_group = UserGroup.query.filter_by(user_id=user.id, group_id=group_id).first()
-                db.session.delete(deleted_user_group)
-            elif action_to_group == "make_admin":
-                user_group = UserGroup.query.filter_by(user_id=user.id, group_id=group_id).first()
-                user_group.is_admin = True
+        elif action_to_group == "delete":
+            deleted_user_group = UserGroup.query.filter_by(user_id=user.id, group_id=group_id).first()
+            db.session.delete(deleted_user_group)
+        elif action_to_group == "make_admin":
+            user_group = UserGroup.query.filter_by(user_id=user.id, group_id=group_id).first()
+            user_group.is_admin = True
 
     db.session.commit()
 
