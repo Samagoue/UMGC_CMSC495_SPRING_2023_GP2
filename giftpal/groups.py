@@ -56,11 +56,10 @@ def mod_group(group_id, group, query_group):
         logged_in_user_is_admin = UserGroup.query.filter_by(user_id=logged_in_user.id, group_id=query_group.id).first().is_admin
 
     user = User.query.filter_by(username=request.form['modify_selected_user']).first()
-
     if 'modify_selected_user' in request.form:
         action_to_group = request.form['group_modification']
 
-        if action_to_group == "add" and user is not None and user.id == logged_in_user.id:
+        if action_to_group == "add" and user is not None:
             new_user_group = UserGroup(user_id=user.id, group_id=query_group.id, is_admin=False)
             db.session.add(new_user_group)
         elif logged_in_user_is_admin:

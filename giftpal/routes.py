@@ -4,7 +4,7 @@ from .suggestions import get_gift_suggestion
 from .events import add_events, do_events
 from .groups import mod_group, group_register
 from .wishlist import add_wish, wishlist
-from .models import Pair, Group
+from .models import Pair, Group, User, UserGroup
 from .utils import hash_password
 from .database import db
 from .auth import register, login, logout, reset_password, profile, setup_login
@@ -107,11 +107,17 @@ def register_group():
 
 @bp.route('/modify-group/<int:group_id>', methods=['GET', 'POST'])
 def modify_group(group_id):
+    #Get the logged in user
+    logged_in_user = User.query.filter_by(username=session['username']).first()
+    logged_in_user_group = UserGroup.query.filter_by(user_id=logged_in_user.id, group_id=group_id).first()
+    if logged_in_user_group is None or logged_in_user_group.is_admin == False:
+        flash('You are not an admin of this group!')
+        return redirect(url_for('main.groups'))
     # Get the group from the database
     group = Group.query.get_or_404(group_id)
     # I'm pretty sure query_group and group are the same thing
     query_group = Group.query.filter_by(id=group_id).first()
-
+    
     if request.method == 'POST':
         mod_group(group_id, group, query_group)
 
