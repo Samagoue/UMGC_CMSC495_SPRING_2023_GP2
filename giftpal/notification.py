@@ -5,7 +5,8 @@ def send_notification(pairs):
     s.starttls()
     
     # need to replace this authentication. Might just want to hard code the password since it is a dummy account
-    s.login("umgcgiftpal1@gmail.com", "xhhonrpinhbfjwxx")
+
+    s.login("umgcgiftpal1@gmail.com", "put in app password here")
     
     
     # sending the mail

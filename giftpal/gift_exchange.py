@@ -1,5 +1,6 @@
 import random
-from giftpal.models import db, User, Pair, Group
+from giftpal.models import db, Pair, Group
+from .notification import send_notification
 
 def match_gift_pairs(group_id):
     # Get Group
@@ -23,3 +24,7 @@ def match_gift_pairs(group_id):
 
     # Commit the changes to the database
     db.session.commit()
+    
+    #get all pairs in the group
+    pairs = Pair.query.filter_by(group=group).all()
+    send_notification(pairs)
