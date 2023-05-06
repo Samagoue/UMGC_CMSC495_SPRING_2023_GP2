@@ -1,5 +1,6 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime, time, timedelta
+import requests
 
 def my_task():
     # Define the task to be executed at midnight
