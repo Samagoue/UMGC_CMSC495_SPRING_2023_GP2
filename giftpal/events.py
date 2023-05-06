@@ -21,11 +21,6 @@ def do_events():
       # Get the id of the event to delete
       event_id = request.form['event_id']
 
-      # Delete the associated Pairs for the event
-      pairs = Pair.query.filter_by(event_id=event_id).all()
-      for pair in pairs:
-          db.session.delete(pair)
-
       # Delete the associated UserEvent instances
       user_events = UserEvent.query.filter_by(event_id=event_id).all()
       for user_event in user_events:
