@@ -3,7 +3,7 @@ from datetime import datetime, time, timedelta
 
 def my_task():
     # Define the task to be executed at midnight
-    print("Task executed at midnight")
+    requests.post('http://localhost:5000/event-notification')
 
 scheduler = BackgroundScheduler()
 

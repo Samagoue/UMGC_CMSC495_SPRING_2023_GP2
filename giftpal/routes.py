@@ -10,6 +10,7 @@ from .database import db
 from .auth import register, login, logout, reset_password, profile, setup_login
 from .admin import setup_keys
 from .gift_exchange import match_gift_pairs
+from .notification import reminder_notification
 
 bp = Blueprint('main', __name__)
 
@@ -158,3 +159,8 @@ def setup_keys_route():
         return setup_keys()
     else:
         return redirect(url_for('main.setup_login_route'))
+
+@bp.route('/event-notification', methods=['POST'])
+def event_notification_route():
+    reminder_notification()
+    return 'Event notifications sent!'
