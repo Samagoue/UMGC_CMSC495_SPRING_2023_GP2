@@ -1,6 +1,6 @@
 import random
 from giftpal.models import db, Pair, Group
-from .notification import send_notification
+from .notification import exchange_notification
 
 def match_gift_pairs(group_id):
     # Get Group
@@ -27,4 +27,4 @@ def match_gift_pairs(group_id):
     
     #get all pairs in the group
     pairs = Pair.query.filter_by(group=group).all()
-    send_notification(pairs)
+    exchange_notification(pairs)

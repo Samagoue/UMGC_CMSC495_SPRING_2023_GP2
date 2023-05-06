@@ -22,6 +22,7 @@ API Keys
         <table>
             <thead>
                 <tr>
+                    <th>Email Address</th>
                     <th>Email API Key</th>
                     <th>OpenAI API Key</th>
                 </tr>
@@ -29,8 +30,9 @@ API Keys
             <tbody>
                 {% for key in keys %}
                 <tr>
-                    <td>{{ key.email }}</td>
-                    <td>{{ key.openai }}</td>
+                    <td>{{ key.email_addr }}</td>
+                    <td>{{ key.email_key }}</td>
+                    <td>{{ key.openai_key }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -40,6 +42,8 @@ API Keys
         <h3>Set API Keys</h3>
         <div class="boxDiv">
             <form method="post">
+                <label for="email_key">Email Address:</label>
+                <input type="text" id="email_addr" name="email_addr"><br>
                 <label for="email_key">Email API Key:</label>
                 <input type="text" id="email_key" name="email_key"><br>
                 <label for="openai_key">OpenAI API Key:</label>

@@ -1,9 +1,9 @@
 import openai
-from .models import User, Group, UserGroup, Key
+from .models import User, Group, UserGroup, Setup
 
 def get_gift_suggestion(receiver_id, group_id):
     
-    openai.api_key = Key.query.filter_by(id=1).first().openai
+    openai.api_key = Setup.query.filter_by(id=1).first().openai_key
 
     # Get the receiver's wishlist and group's minimum dollar amount
     receiver = User.query.get(receiver_id)

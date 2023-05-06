@@ -1,23 +1,27 @@
 import smtplib
+from .models import Setup
 
-def send_notification(pairs): 
+def send_email(reciever, message):
     s = smtplib.SMTP('smtp.gmail.com', 587)
     s.starttls()
-    
-    # need to replace this authentication. Might just want to hard code the password since it is a dummy account
 
-    s.login("umgcgiftpal1@gmail.com", "put in app password here")
-    
-    
+    sender = Setup.query.filter_by(id=1).first().email_addr
+    app_password = Setup.query.filter_by(id=1).first().email_key
+
+    s.login(sender, app_password)
+
     # sending the mail
+    s.sendmail(sender, reciever, message)
+
+    s.quit()
+
+def exchange_notification(pairs):
     for pair in pairs:
-        message = """\
-        Subject: New Pair
+        subject = "Giftpal - New Pair"
+        body = """
 
         You have been paired with """ + pair.receiver.first_name + " " + pair.receiver.last_name + """ for """ + pair.group.group_name + """!
         
         """
-        s.sendmail("umgcgiftpal1@gmail.com", pair.giver.email, message)
-    
-    s.quit()
-
+        message = f"Subject: {subject}\n{body}"
+        send_email(pair.giver.email, message)

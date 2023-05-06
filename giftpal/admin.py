@@ -2,7 +2,7 @@ import hashlib
 import random
 import string
 from flask import render_template, request, redirect, url_for, session, flash
-from .models import db, User, Group, Admin, Key
+from .models import db, User, Group, Admin, Setup
 from .utils import hash_password, validate_password
 
 
@@ -76,24 +76,27 @@ def register_group():
 
 def setup_keys():
     if request.method == 'POST':
+        email_addr = request.form['email_addr']
         email_key = request.form['email_key']
         openai_key = request.form['openai_key']
 
         # check if a key already exists
-        existing_key = Key.query.first()
+        existing_key = Setup.query.first()
 
         if existing_key:
             # update the existing key
+            if email_addr != '':
+                existing_key.email_addr = email_addr
             if email_key != '':
-                existing_key.email = email_key
+                existing_key.email_key = email_key
             if openai_key != '':
-                existing_key.openai = openai_key
+                existing_key.openai_key = openai_key
         else:
             # create a new key entry
-            new_key = Key(email=email_key, openai=openai_key)
+            new_key = Setup(email_addr=email_addr, email_key=email_key, openai_key=openai_key)
             db.session.add(new_key)
 
         db.session.commit()
 
-    keys = Key.query.all()
+    keys = Setup.query.all()
     return render_template('api_keys.html', keys=keys)

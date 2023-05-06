@@ -65,10 +65,11 @@ class UserGroup(db.Model):
     group = db.relationship("Group", back_populates="users")
     is_admin = db.Column(db.Boolean, default=False)
 
-class Key(db.Model):
+class Setup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(50), nullable=False)
-    openai = db.Column(db.String(50), nullable=False)
+    email_addr = db.Column(db.String(50), nullable=False)
+    email_key = db.Column(db.String(50), nullable=False)
+    openai_key = db.Column(db.String(50), nullable=False)
 
 class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
