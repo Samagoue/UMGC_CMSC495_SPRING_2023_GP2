@@ -4,6 +4,7 @@ from giftpal.routes import bp as main_bp
 from giftpal.test_users import test_users
 from giftpal.admin import set_admin_user
 from giftpal.models import User, Admin
+from giftpal.scheduler import run_scheduler
 
 def create_app():
     app = Flask(__name__)

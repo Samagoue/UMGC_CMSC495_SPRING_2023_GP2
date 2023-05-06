@@ -25,3 +25,6 @@ def exchange_notification(pairs):
         """
         message = f"Subject: {subject}\n{body}"
         send_email(pair.giver.email, message)
+
+def reminder_notification():
+    test = 'test'
