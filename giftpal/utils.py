@@ -1,6 +1,6 @@
+from datetime import datetime
 import hashlib
-
-from flask import flash
+from flask import flash, session
 
 # hash the password
 def hash_password(password):
@@ -26,3 +26,15 @@ def validate_password(password, confirm_password):
     if password != confirm_password:
         flash('Passwords do not match!')
         return False
+
+def calculate_age(dob_str: str) -> int:
+    dob = datetime.strptime(dob_str, "%Y-%m-%d")
+    today = datetime.today()
+    
+    age = today.year - dob.year
+    
+    # Check if the birthday has occurred this year or not
+    if (today.month, today.day) < (dob.month, dob.day):
+        age -= 1
+    
+    return age

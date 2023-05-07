@@ -1,5 +1,6 @@
 import smtplib
 import datetime as dt
+from flask import session
 from .models import Setup, Event, User
 
 def send_email(reciever, message):

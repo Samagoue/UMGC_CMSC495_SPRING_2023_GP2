@@ -1,9 +1,8 @@
-from flask import Flask, g
-from giftpal.database import db, create_db, dbdir
-from giftpal.routes import bp as main_bp
-from giftpal.admin import set_admin_user
-from giftpal.models import User, Admin
-from giftpal.scheduler import run_scheduler
+from flask import Flask
+from .database import db, create_db, dbdir
+from .routes import bp as main_bp
+from .admin import set_admin_user
+from .scheduler import run_scheduler
 
 def create_app():
     app = Flask(__name__)
@@ -22,7 +21,7 @@ def create_app():
         
         # Sets admin password and prints to console
         set_admin_user()
-   
+
     app.register_blueprint(main_bp)
 
     return app
