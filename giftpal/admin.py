@@ -24,10 +24,7 @@ def set_admin_user():
     else:
         # create a new admin account
         admin_acct = Admin(username=username, password=enc_password)
-        admin_user_acct = User(first_name='Test', last_name='Admin', username=username, email='umgcgiftpal@gmail.com',
-                    password=enc_password, dob='02021980', is_admin=True)
         db.session.add(admin_acct)
-        db.session.add(admin_user_acct)
 
     db.session.commit()
     print(f"Admin password: {password}")
